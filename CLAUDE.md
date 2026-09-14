@@ -66,6 +66,16 @@ en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (claude.ai/code, 14-sep-2026), migrada
 - Lección: con una escena de "mesa de madera + pared", Flux ignora el estilo grabado y saca foto. Para el pan,
   la escena va sin mesa ni pared, "sobre papel crema", y termina con "hand drawn, not a photograph".
 
+## GitHub y QR
+
+- Repo `mberlin84/carta`, rama `main`. GitHub Pages sirve `docs/`: https://mberlin84.github.io/carta/
+- `docs/index.html` es la carta como documento completo (se armó desde la vista previa del artifact).
+  **No hay generador todavía**: `menu.json` y `build.py` de la sesión en la nube nunca llegaron a este repo.
+- `herramientas/qr.py` (necesita `segno`; para verificar, `opencv-python-headless`) genera en `qr/`:
+  `qr-carta.png` (4096 px), `qr-carta.svg`, `tarjeta-mesa.png` y `tarjeta-mesa.pdf` (A6, 300 dpi).
+  Apunta a `/carta/ir/`, corrección H, sello al 24 % del ancho. Se verifica leyendo con dos detectores
+  de OpenCV: el clásico falla en imágenes grandes incluso sin sello, así que no es una señal válida por sí solo.
+
 ## Pendiente
 
 - Horario: Instagram no lo publica. Falta pedirlo.
