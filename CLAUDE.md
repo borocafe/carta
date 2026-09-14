@@ -1,62 +1,59 @@
-# Boró Café — carta digital + QR
+# Boró Café — carta digital + QR/NFC
 
-Carta móvil estática de Boró Café publicada en GitHub Pages: https://borocafe.github.io/carta/
-Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (claude.ai/code, 14-sep-2026) y se migró a este
-entorno. De esa sesión nunca llegaron `menu.json` ni `build.py`: acá la fuente es HTML.
+Carta móvil de Boró Café en GitHub Pages: https://borocafe.github.io/carta/ (repo `borocafe/carta`).
+Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y se migró a este entorno.
 
-## Estructura
+## Flujo de datos (decisión del usuario: planilla → GitHub, sin Google en vivo)
 
-- `fuente/carta.html` — **la fuente de verdad**. Carta sin `<html>/<head>/<body>`: se publica tal cual como vista
-  previa en claude.ai (https://claude.ai/artifact/QcrZTnnUy4K4XWVjvqxcsk) y de acá sale la página.
-- `herramientas/armar_sitio.py` — envuelve la fuente en un documento completo → `docs/index.html`. Correrlo después
-  de cada cambio en la fuente. Nunca editar `docs/index.html` a mano.
-- `docs/` — lo que sirve Pages (rama `main`, carpeta `/docs`). `docs/ir/` redirige a `/carta/` y es la URL del QR.
-- `docs/assets/` — `portada.webp`, `logo.webp`, `logo-claro.webp`, `banda-cafe.webp`, `banda-masas.webp`,
-  `banda-pan-grabado.webp`.
-- `marca/` — `logo-original.webp` (941 px), `originales/` (PNG elegidos de ComfyUI), `anteriores/` (láminas en desuso).
-  `marca/generadas/` son candidatos descartables, fuera de git.
-- `herramientas/generar.py` (ComfyUI), `herramientas/bandas.py` (ilustración → banda), `herramientas/qr.py` (QR).
-- `qr/` — `qr-carta.png` (4096 px), `qr-carta.svg`, `tarjeta-mesa.png` y `tarjeta-mesa.pdf` (A6, 300 dpi).
+- **`datos/carta.xlsx` es la fuente de precios y productos.** El personal la descarga, la edita y la sube
+  por la web de GitHub (`/upload/main/datos`) con cualquier nombre, en `.xlsx` o `.csv`.
+- `.github/workflows/publicar-carta.yml` (en cada push a main): `armar_sitio.py` valida y arma la carta →
+  `planilla.py normalizar` deja la subida como `datos/carta.xlsx` y borra las demás (commit del bot) →
+  deploy con `actions/deploy-pages`. Pages usa `build_type: workflow` (no la rama).
+- Si la planilla tiene errores el job falla, no se publica nada y GitHub avisa por correo. Los mensajes
+  están escritos para personas: fila, producto y qué corregir.
+- La planilla vigente es la de commit más reciente en `datos/` (por eso el checkout usa `fetch-depth: 0`).
 
-## Datos del café (instagram.com/borocafe.cl, 14-sep-2026)
+## Reglas de la planilla (`herramientas/datos.py`)
 
-- Nombre **Boró Café** (con tilde). Dirección **Av. Los Leones 2380, esquina Tranquila, Providencia**.
-- Instagram `@borocafe.cl`. El horario no aparece publicado: falta.
-- `borocafe.cl` está registrado (NIC Chile, mayo 2026) a nombre de "Servicio de alimentación Del Campo Tomicic Ltda",
-  sin DNS configurado. Si se usa como dominio, hay que regenerar el QR antes de imprimir.
+- Columnas: Grupo, Sección, Producto, Detalle, Precio, Mostrar. El orden de las filas es el de la carta.
+- Grupo o Sección vacíos heredan de la fila de arriba. Cada grupo es un botón de la navegación.
+- Una fila sin Producto y con Detalle es una nota de sección. Si empieza con "Todos a" se muestra como sello
+  (`.fijo`) y permite productos sin precio.
+- Precio: `3700`, `$3.700`, `3.700`, `4500,00` o tamaños `180 ml: 4500 / 500 ml: 9500`.
+  Mostrar: Sí/No (vacío = Sí).
+- CSV: acepta `,` o `;` y UTF-8 o cp1252 (Excel en español en Windows).
+- Mínimo 5 productos visibles, para no publicar una carta vacía por subir el archivo equivocado.
 
-## Diseño
+## Diseño (`fuente/carta.html` es plantilla con `<!-- NAV -->`, `<!-- CARTA -->`, `<!-- MES -->`)
 
-- Papel `--paper:#f4e8d0`; acento `--marca:#5f672a` (verde del logo `#687030` oscurecido para contraste 5:1).
-  Tipografías: Italiana, Cormorant Garamond y Jost. Columna de 620 px máx.
-- Portada: lámina art déco con el sello de Boró al centro, dentro de `<h1 class="logo">`, y "Carta" arriba.
-- Navegación: 4 botones del mismo ancho → 4 grupos. Cada grupo tiene un `h2` y subsecciones con `h3` verdes:
-  - **Café**: Calientes (con pie "Leche vegetal +$800"), Fríos, Té e infusiones ("Todos a $4.200"), Jugos y bebidas.
-  - **Comida**: Desayunos, Sándwiches y salados, Almuerzos ("Todos a $6.990").
-  - **Dulces**: Masas y medialunas, Pastelería.
-  - **Pan**: Panadería, con la nota "Para llevar a casa".
-- Bandas en grabado ilustrado (estilo elegido por el usuario, no foto) antes de Café, Dulces y Pan.
-- Pie oliva `--pie:#4b5324`: sello en crema, dirección con link a Maps, ícono de Instagram (SVG `currentColor`)
-  + `@borocafe.cl` y "Carta vigente · septiembre 2026".
-- Descartado por el usuario: la banda de pan con café en estilo vectorial, la contratapa ilustrada y la lista de notas final.
+- Papel `#f4e8d0`; acento `--marca:#5f672a` (verde del logo `#687030` oscurecido para contraste 5:1);
+  Italiana, Cormorant Garamond y Jost; columna de 620 px máx.
+- Portada: lámina art déco con el sello al centro (`<h1 class="logo">`). Pie oliva con el sello en crema,
+  dirección, Instagram (SVG inline) y "Carta vigente · <mes>".
+- Grupos (`h2`) con subsecciones (`h3` verde). Un grupo con una sola sección del mismo nombre (Pan) no repite
+  el título. Bandas en grabado antes de Café, Dulces y Pan (`BANDAS` en `armar_sitio.py`, por slug).
+- Descartado por el usuario: foto editorial, la banda vectorial de pan con café, la contratapa ilustrada,
+  la lista de notas final y la navegación de 10 botones.
 
-## Imágenes con ComfyUI
+## Datos del café
 
-- `https://win.tail8f8496.ts.net:8443` (tailscale serve; la IP:8188 aparece cerrada aunque funcione).
-- `flux1-schnell-fp8` + `clip_l` + `t5xxl_fp8_e4m3fn` + `ae.safetensors`. Apache 2.0: uso comercial permitido.
-- schnell ignora el prompt negativo (cfg 1.0). Pedir objetos y composición, no adjetivos.
-- Con "mesa de madera + pared" Flux ignora el estilo grabado y saca foto. Revisar firmas falsas en las esquinas
-  (el pan elegido traía una; se recortó).
-- `bandas.py` iguala el papel a `#f4e8d0` con ganancias por canal y funde bordes. Así no se ven costuras.
+- Nombre **Boró Café**. Av. Los Leones 2380, esquina Tranquila, Providencia. Instagram `@borocafe.cl`.
+- Falta el horario. `borocafe.cl` está registrado (mayo 2026, "Servicio de alimentación Del Campo Tomicic
+  Ltda") y sin DNS.
 
-## QR
+## Herramientas locales
 
-- `herramientas/qr.py` requiere `segno` (y `opencv-python-headless` para verificar), en un venv con
-  `--system-site-packages` para usar PIL y numpy del sistema.
-- Apunta a `https://borocafe.github.io/carta/ir/`, corrección H, sello al 24 % del ancho.
-- Se verifica con los dos detectores de OpenCV: el clásico falla en imágenes grandes incluso sin sello.
+- Venv con `--system-site-packages` + `segno openpyxl opencv-python-headless`.
+- `armar_sitio.py` → `docs/index.html` (generado, en `.gitignore`); `--vista-previa` genera la variante para
+  claude.ai.
+- `qr.py`: QR a `/carta/ir/`, corrección H, sello al 24 %, tarjeta A6 con ícono NFC. Se verifica con los dos
+  detectores de OpenCV, porque el clásico falla en imágenes grandes incluso sin sello.
+- ComfyUI en `https://win.tail8f8496.ts.net:8443` (`flux1-schnell-fp8`, Apache 2.0). `generar.py`,
+  `bandas.py`. schnell ignora el prompt negativo; con "mesa + pared" sale foto aunque se pida grabado.
+- Preview local: `.claude/launch.json` → `carta` (http.server sobre `docs/`).
 
 ## Pendiente
 
 - Horario del local.
-- Decidir qué hacer con el repo viejo `mberlin84/carta` (sigue publicado): archivar o redirigir.
+- Repo viejo `mberlin84/carta` sigue publicado: archivar o redirigir (preguntado, sin respuesta).

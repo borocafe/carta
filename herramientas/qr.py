@@ -138,7 +138,20 @@ def tarjeta(qr_img, destino_png, destino_pdf):
     d.rounded_rectangle(((W - lado_qr) // 2 - blanco, y_qr - blanco, (W + lado_qr) // 2 + blanco, y_qr + lado_qr + blanco),
                         radius=round(3 * mm), fill=BLANCO)
     t.paste(qr_img.resize((lado_qr, lado_qr), Image.LANCZOS), ((W - lado_qr) // 2, y_qr))
-    centrado("Escanea para ver la carta", y_qr + lado_qr + round(11 * mm), fuente(round(5.2 * mm), "Medium"))
+    # Llamado + ícono sin contacto: detrás del QR va un sticker NFC con la misma URL.
+    f_cta = fuente(round(5.2 * mm), "Medium")
+    llamado = "Escanea o acerca tu celular"
+    y_cta = y_qr + lado_qr + round(11 * mm)
+    radio = round(3.2 * mm)
+    separacion = round(2.4 * mm)
+    ancho = radio + separacion + d.textlength(llamado, font=f_cta)
+    x0 = (W - ancho) / 2
+    caja = d.textbbox((x0 + radio + separacion, y_cta), llamado, font=f_cta)
+    cy = (caja[1] + caja[3]) / 2
+    for k in range(1, 5):
+        r = radio * k / 4
+        d.arc((x0 - r, cy - r, x0 + r, cy + r), start=-50, end=50, fill=oliva, width=max(2, round(0.42 * mm)))
+    d.text((x0 + radio + separacion, y_cta), llamado, font=f_cta, fill=oliva)
     centrado("@borocafe.cl  ·  Av. Los Leones 2380, Providencia", y_qr + lado_qr + round(20 * mm),
              fuente(round(3.0 * mm), "Regular"), color=(109, 91, 72))
     t.save(destino_png, dpi=(300, 300))

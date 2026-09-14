@@ -1,0 +1,62 @@
+name: Publicar carta
+
+# Cada vez que alguien sube una planilla a datos/ (o cambia el diseño), se revisa y se publica.
+# Si la planilla tiene errores, este flujo falla, la carta publicada no cambia y GitHub avisa por correo.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publicar-carta
+  cancel-in-progress: false
+
+jobs:
+  armar:
+    name: Revisar planilla y armar carta
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # para saber cuál planilla se subió última
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar lector de Excel
+        run: pip install --quiet openpyxl
+
+      - name: Revisar la planilla y armar la carta
+        run: python3 herramientas/armar_sitio.py
+
+      - name: Dejar la planilla como datos/carta.xlsx
+        run: |
+          python3 herramientas/planilla.py normalizar
+          if [ -n "$(git status --porcelain -- datos)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A datos
+            git commit -m "Guardar la planilla subida como datos/carta.xlsx"
+            git push
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  publicar:
+    name: Publicar en GitHub Pages
+    needs: armar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
