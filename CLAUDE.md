@@ -1,83 +1,62 @@
-# Boro Café — carta digital + QR
+# Boró Café — carta digital + QR
 
-Carta móvil estática para Boro Café, generada desde un solo archivo de datos. Viene de la sesión
-en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (claude.ai/code, 14-sep-2026), migrada a este entorno.
+Carta móvil estática de Boró Café publicada en GitHub Pages: https://borocafe.github.io/carta/
+Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (claude.ai/code, 14-sep-2026) y se migró a este
+entorno. De esa sesión nunca llegaron `menu.json` ni `build.py`: acá la fuente es HTML.
 
-## Estructura (según el repo que armó la sesión en la nube)
+## Estructura
 
-- `menu.json` — lo único que se edita: secciones, ítems, precios, `qr_destino`.
-- `build.py` — genera `docs/index.html` y `docs/ir/index.html` desde `menu.json`. Solo stdlib.
-  `python3 build.py --artifact out.html` genera la variante sin `<html>/<head>/<body>`.
-- `make_qr.py` — QR en SVG (imprenta), PNG (redes) y `qr/tarjetas-mesa.html` (A4, 4 tarjetas).
-- `docs/assets/*.webp` — recortes de las 3 láminas botánicas. En uso: `portada.webp`, `banda-pan.webp`
-  (antes de Masas) y `contratapa.webp` (cierre, con el balance de color corregido para calzar con el papel).
-  `banda-rama.webp` y `banda-mesa.webp` ya no se usan desde la versión 3.
-- `.github/workflows/build.yml` — cada push que toque `menu.json` o `build.py` regenera `docs/`.
-- `_redirects` — solo para Cloudflare Pages; GitHub Pages lo ignora.
+- `fuente/carta.html` — **la fuente de verdad**. Carta sin `<html>/<head>/<body>`: se publica tal cual como vista
+  previa en claude.ai (https://claude.ai/artifact/QcrZTnnUy4K4XWVjvqxcsk) y de acá sale la página.
+- `herramientas/armar_sitio.py` — envuelve la fuente en un documento completo → `docs/index.html`. Correrlo después
+  de cada cambio en la fuente. Nunca editar `docs/index.html` a mano.
+- `docs/` — lo que sirve Pages (rama `main`, carpeta `/docs`). `docs/ir/` redirige a `/carta/` y es la URL del QR.
+- `docs/assets/` — `portada.webp`, `logo.webp`, `logo-claro.webp`, `banda-cafe.webp`, `banda-masas.webp`,
+  `banda-pan-grabado.webp`.
+- `marca/` — `logo-original.webp` (941 px), `originales/` (PNG elegidos de ComfyUI), `anteriores/` (láminas en desuso).
+  `marca/generadas/` son candidatos descartables, fuera de git.
+- `herramientas/generar.py` (ComfyUI), `herramientas/bandas.py` (ilustración → banda), `herramientas/qr.py` (QR).
+- `qr/` — `qr-carta.png` (4096 px), `qr-carta.svg`, `tarjeta-mesa.png` y `tarjeta-mesa.pdf` (A6, 300 dpi).
 
-## Decisiones
+## Datos del café (instagram.com/borocafe.cl, 14-sep-2026)
 
-- Hosting: GitHub Pages en `mberlin84/carta`, rama `main`, carpeta `/docs`.
-- QR dinámico: el impreso apunta a `https://mberlin84.github.io/carta/ir/`, que redirige a `qr_destino`.
-  Se cambia el destino editando `menu.json`, sin reimprimir.
-- Diseño: papel crema (`--paper:#f4e8d0`), acento terracota, Italiana + Cormorant Garamond + Jost.
-  Columna única de 620 px máx, chips de sección pegajosos.
-- Secciones de precio fijo (Almuerzos $6.990, Té $4.200) muestran un sello y los ítems van sin precio.
-- Sin lista de notas al final (el usuario pidió sacarla). "Leche vegetal +$800" va como `pie` de Cafetería
-  caliente. El final es una contratapa: lámina completa con nombre, datos y "Carta vigente · septiembre 2026".
-- El zip más reciente de la sesión en la nube es el de las 19:52 UTC (268 KB), con la contratapa.
+- Nombre **Boró Café** (con tilde). Dirección **Av. Los Leones 2380, esquina Tranquila, Providencia**.
+- Instagram `@borocafe.cl`. El horario no aparece publicado: falta.
+- `borocafe.cl` está registrado (NIC Chile, mayo 2026) a nombre de "Servicio de alimentación Del Campo Tomicic Ltda",
+  sin DNS configurado. Si se usa como dominio, hay que regenerar el QR antes de imprimir.
 
-## Datos del café (confirmados en instagram.com/borocafe.cl, 14-sep-2026)
+## Diseño
 
-- Nombre: **Boró Café** (con tilde). La sesión anterior había puesto "Boro Café".
-- Bio: "Café de especialidad, bollería, pan masa madre, pizza, desayuno y almuerzo".
-- Dirección: **Av. Los Leones 2380, esquina Tranquila, Providencia**. La sesión anterior había puesto "2299".
-- Instagram: `@borocafe.cl` → https://www.instagram.com/borocafe.cl/
-- Estos datos ya están en la vista previa publicada (https://claude.ai/artifact/QcrZTnnUy4K4XWVjvqxcsk),
-  pero **todavía no en `menu.json`**: aplicarlos ahí cuando llegue el zip, o el próximo build los pisa.
-
-- Marca: logo circular verde oliva sobre crema ("BORÓ café · Pan · Café de especialidad · Bollería").
-  Verde del logo ≈ `#687030`. En la carta el acento pasó de terracota a `--marca:#5f672a`, que es más oscuro
-  para que el texto chico sobre el papel tenga contraste 5:1. El token se renombró de `--terra` a `--marca`:
-  replicar ese cambio en `build.py`.
-- Logo: original en `marca/logo-original.webp` (941 px, fondo crema). `docs/assets/logo.webp` es la versión
-  para la web: 600 px, fondo transparente y todo el trazo en el verde del logo (`#686e31`), para que se apoye
-  sobre el papel sin recuadro. Va en la portada, dentro del `<h1 class="logo">`, al 83% del área central
-  (= 50% del ancho de la lámina), con "Carta" arriba. Reemplaza al nombre escrito y a la bajada.
-  La contratapa sigue con el nombre en texto. Replicar en `build.py`.
-
-- Pie (reemplaza a la contratapa ilustrada, que al usuario no le gustó): bloque oliva `--pie:#4b5324` con
-  texto crema. Contiene el sello en crema (`docs/assets/logo-claro.webp`, 400 px, mismo alfa que `logo.webp`),
-  la dirección con link a Maps, el ícono de Instagram (SVG inline con `currentColor`) + `@borocafe.cl`,
-  un filete y "Carta vigente · septiembre 2026". Ya no usa `contratapa.webp`.
+- Papel `--paper:#f4e8d0`; acento `--marca:#5f672a` (verde del logo `#687030` oscurecido para contraste 5:1).
+  Tipografías: Italiana, Cormorant Garamond y Jost. Columna de 620 px máx.
+- Portada: lámina art déco con el sello de Boró al centro, dentro de `<h1 class="logo">`, y "Carta" arriba.
+- Navegación: 4 botones del mismo ancho → 4 grupos. Cada grupo tiene un `h2` y subsecciones con `h3` verdes:
+  - **Café**: Calientes (con pie "Leche vegetal +$800"), Fríos, Té e infusiones ("Todos a $4.200"), Jugos y bebidas.
+  - **Comida**: Desayunos, Sándwiches y salados, Almuerzos ("Todos a $6.990").
+  - **Dulces**: Masas y medialunas, Pastelería.
+  - **Pan**: Panadería, con la nota "Para llevar a casa".
+- Bandas en grabado ilustrado (estilo elegido por el usuario, no foto) antes de Café, Dulces y Pan.
+- Pie oliva `--pie:#4b5324`: sello en crema, dirección con link a Maps, ícono de Instagram (SVG `currentColor`)
+  + `@borocafe.cl` y "Carta vigente · septiembre 2026".
+- Descartado por el usuario: la banda de pan con café en estilo vectorial, la contratapa ilustrada y la lista de notas final.
 
 ## Imágenes con ComfyUI
 
-- Servidor: `https://win.tail8f8496.ts.net:8443` (tailscale serve; la IP:8188 aparece cerrada aunque funcione).
-- Modelo: `flux1-schnell-fp8` + `clip_l` + `t5xxl_fp8_e4m3fn` + VAE `ae.safetensors`. Apache 2.0, uso comercial OK.
-- `herramientas/generar.py candidatos` → `marca/generadas/<motivo>-<estilo>.png` (1344×784).
-- schnell ignora el prompt negativo (cfg 1.0): la dirección va en positivo, y se piden objetos y
-  composición, no adjetivos.
-- La banda del pan con café (`banda-pan.webp`) no le gustó al usuario: se reemplaza por imágenes generadas.
-- Estilo elegido por el usuario: **grabado ilustrado** (no foto editorial). Bandas: `banda-cafe.webp` antes de
-  Cafetería caliente, `banda-masas.webp` antes de Masas y `banda-pan-grabado.webp` antes de Panadería.
-- `herramientas/bandas.py <png> <nombre>` iguala el papel de la imagen a `#f4e8d0` con ganancias por canal,
-  funde bordes, recorta (`--recorte-sup/--recorte-inf`) y escribe `docs/assets/<nombre>.webp` a 1240 px.
-- Lección: con una escena de "mesa de madera + pared", Flux ignora el estilo grabado y saca foto. Para el pan,
-  la escena va sin mesa ni pared, "sobre papel crema", y termina con "hand drawn, not a photograph".
+- `https://win.tail8f8496.ts.net:8443` (tailscale serve; la IP:8188 aparece cerrada aunque funcione).
+- `flux1-schnell-fp8` + `clip_l` + `t5xxl_fp8_e4m3fn` + `ae.safetensors`. Apache 2.0: uso comercial permitido.
+- schnell ignora el prompt negativo (cfg 1.0). Pedir objetos y composición, no adjetivos.
+- Con "mesa de madera + pared" Flux ignora el estilo grabado y saca foto. Revisar firmas falsas en las esquinas
+  (el pan elegido traía una; se recortó).
+- `bandas.py` iguala el papel a `#f4e8d0` con ganancias por canal y funde bordes. Así no se ven costuras.
 
-## GitHub y QR
+## QR
 
-- Repo `mberlin84/carta`, rama `main`. GitHub Pages sirve `docs/`: https://mberlin84.github.io/carta/
-- `docs/index.html` es la carta como documento completo (se armó desde la vista previa del artifact).
-  **No hay generador todavía**: `menu.json` y `build.py` de la sesión en la nube nunca llegaron a este repo.
-- `herramientas/qr.py` (necesita `segno`; para verificar, `opencv-python-headless`) genera en `qr/`:
-  `qr-carta.png` (4096 px), `qr-carta.svg`, `tarjeta-mesa.png` y `tarjeta-mesa.pdf` (A6, 300 dpi).
-  Apunta a `/carta/ir/`, corrección H, sello al 24 % del ancho. Se verifica leyendo con dos detectores
-  de OpenCV: el clásico falla en imágenes grandes incluso sin sello, así que no es una señal válida por sí solo.
+- `herramientas/qr.py` requiere `segno` (y `opencv-python-headless` para verificar), en un venv con
+  `--system-site-packages` para usar PIL y numpy del sistema.
+- Apunta a `https://borocafe.github.io/carta/ir/`, corrección H, sello al 24 % del ancho.
+- Se verifica con los dos detectores de OpenCV: el clásico falla en imágenes grandes incluso sin sello.
 
 ## Pendiente
 
-- Horario: Instagram no lo publica. Falta pedirlo.
-- Push inicial a `mberlin84/carta` (el repo está vacío) y activar Pages desde `/docs`.
-- Si se usa dominio propio, regenerar el QR con la URL final antes de imprimir.
+- Horario del local.
+- Decidir qué hacer con el repo viejo `mberlin84/carta` (sigue publicado): archivar o redirigir.

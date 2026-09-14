@@ -3,7 +3,7 @@
 QR de la carta con el sello de Boró al centro, listo para imprenta.
 
 Uso (necesita segno; PIL y numpy del sistema):
-    python3 herramientas/qr.py [--url https://mberlin84.github.io/carta/ir/]
+    python3 herramientas/qr.py [--url https://borocafe.github.io/carta/ir/]
 
 Salida en qr/:
     qr-carta.png      4096 px, fondo blanco: para imprenta o para escalar a cualquier tamaño
@@ -165,7 +165,7 @@ def verificar(ruta, url):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--url", default="https://mberlin84.github.io/carta/ir/")
+    ap.add_argument("--url", default="https://borocafe.github.io/carta/ir/")
     a = ap.parse_args()
     out = RAIZ / "qr"
     out.mkdir(exist_ok=True)

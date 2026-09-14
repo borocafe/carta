@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 # Candidatos de ComfyUI: pesados y descartables. Los elegidos están en marca/originales/.
 marca/generadas/
+.claude/

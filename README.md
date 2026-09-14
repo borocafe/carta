@@ -2,8 +2,8 @@
 
 Carta digital de [Boró Café](https://www.instagram.com/borocafe.cl/) — Av. Los Leones 2380, esquina Tranquila, Providencia.
 
-**En línea:** https://mberlin84.github.io/carta/
-**Para el QR:** https://mberlin84.github.io/carta/ir/ (redirige a la carta; cambiá el destino en `docs/ir/index.html` sin reimprimir)
+**En línea:** https://borocafe.github.io/carta/
+**Para el QR:** https://borocafe.github.io/carta/ir/ (redirige a la carta; cambiá el destino en `docs/ir/index.html` sin reimprimir)
 
 ## Estructura
 
