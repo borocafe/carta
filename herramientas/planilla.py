@@ -38,6 +38,8 @@ INSTRUCCIONES = [
      "«Todos a» (por ejemplo «Todos a $6.990»), se muestra como sello y los productos de esa sección van sin precio.", None),
     ("• La carta respeta el orden de las filas. Para una sección o un grupo nuevo, escribe un nombre nuevo: "
      "cada grupo es un botón arriba de la carta.", None),
+    ("• Promociones: si el nombre de la sección empieza con «Promo», sus productos se muestran destacados, "
+     "en recuadros, en vez de la lista de precios normal. Sirve para las promos de la mañana.", None),
     ("", None),
     ("PUBLICAR", "sub"),
     ("1. Guarda el archivo (sirve Excel, Numbers o Google Sheets descargado como .xlsx o .csv).", None),

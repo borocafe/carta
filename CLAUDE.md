@@ -39,6 +39,8 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 - **El logo original viene recortado**: su anillo llega cortado en los cuatro bordes. `herramientas/logo.py`
   detecta el círculo real, lo completa, deja 3,5 % de margen y escribe `marca/logo-completo.webp` (maestro, lo
   usa también el QR) más `docs/assets/logo.webp` y `logo-claro.webp`. En la portada el sello va al 86 %.
+- **Secciones que empiezan con «Promo»** se muestran como tarjetas (`.promo`), no como lista de precios:
+  nombre en serif, precio en verde y la condición debajo, como la portada de la carta impresa.
 - Navegación: hasta 4 grupos en una fila; con más, de a 3 por fila.
 - Descartado por el usuario: foto editorial, la banda vectorial de pan con café, la contratapa ilustrada,
   la lista de notas final, la navegación de 10 botones y las ilustraciones entre secciones.

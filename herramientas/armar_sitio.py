@@ -48,6 +48,14 @@ def item(p):
             f'<span class="precio">{precio}</span></div>{detalle}</li>')
 
 
+def promo(p):
+    """Las promos van como bloques destacados, igual que en la portada de la carta impresa."""
+    precio = "" if p["precio"] is None else f'<span class="promo-precio">{plata(p["precio"])}</span>'
+    detalle = f'<p class="promo-detalle">{esc(p["detalle"])}</p>' if p["detalle"] else ""
+    return (f'<article class="promo"><p class="promo-cab">'
+            f'<span class="promo-nombre">{esc(p["producto"])}</span>{precio}</p>{detalle}</article>')
+
+
 def notas(lista):
     out = []
     for nt in lista:
@@ -73,13 +81,16 @@ def carta(grupos):
         unica = len(g["secciones"]) == 1 and datos.normal(g["secciones"][0]["nombre"]) == datos.normal(g["nombre"])
         subs = []
         for s in g["secciones"]:
-            items = "\n".join(item(p) for p in s["productos"])
+            if datos.normal(s["nombre"]).startswith("promo"):
+                items = ('<div class="promos">\n' + "\n".join(promo(p) for p in s["productos"]) + "\n</div>")
+            else:
+                items = '<ul class="items">\n' + "\n".join(item(p) for p in s["productos"]) + "\n</ul>"
             if unica:
-                subs.append(f'<div class="sub">\n<ul class="items">\n{items}\n</ul>\n</div>')
+                subs.append(f'<div class="sub">\n{items}\n</div>')
             else:
                 sid = unico(datos.slug(s["nombre"]))
                 subs.append(f'<div class="sub" id="{sid}">\n<h3>{esc(s["nombre"])}</h3>\n{notas(s["notas"])}'
-                            f'<ul class="items">\n{items}\n</ul>\n</div>')
+                            f'{items}\n</div>')
         cabecera_notas = notas(g["secciones"][0]["notas"]) if unica else ""
         partes.append(f'<section class="grupo" id="{gid}"><div class="wrap">\n'
                       f'<header class="grupo-cab"><h2>{esc(g["nombre"])}</h2>'
