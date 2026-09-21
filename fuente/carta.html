@@ -102,9 +102,10 @@ a{color:inherit}
 .item-nombre{margin:0; font-size:16px; font-weight:500; letter-spacing:.005em; flex:0 1 auto}
 .dots{flex:1 1 auto; min-width:14px; height:0; border-bottom:1px dotted var(--line); transform:translateY(-4px)}
 .precio{flex:0 0 auto; font-variant-numeric:tabular-nums; font-size:16px; text-align:right}
-.precio .sizes{display:flex; flex-direction:column; gap:2px; align-items:flex-end}
-.precio .size{font-size:12.5px; color:var(--ink-faint); letter-spacing:.04em; font-weight:300}
-.precio .size b{font-weight:400; color:var(--ink); margin-left:9px}
+.tamanos{list-style:none; margin:7px 0 0; padding:0; display:flex; flex-direction:column; gap:7px}
+.tamanos li{display:flex; align-items:baseline; gap:9px}
+.tam-nombre{font-family:var(--titulo); font-style:italic; font-size:16px; color:var(--ink-soft); flex:0 1 auto}
+.tamanos .precio{font-size:15px}
 .item-desc{margin:5px 0 0; font-size:14px; font-weight:300; color:var(--ink-soft); max-width:52ch; line-height:1.45}
 .variantes{
   margin:6px 0 0; font-family:var(--titulo); font-size:16px; font-style:italic;

@@ -40,12 +40,14 @@ def item(p):
     if p["precio"] is None:
         return f'<li class="item">{nombre}{detalle}</li>'
     if isinstance(p["precio"], list):
-        tamanos = "".join(f'<span class="size">{esc(e)}<b>{plata(v)}</b></span>' for e, v in p["precio"])
-        precio = f'<span class="sizes">{tamanos}</span>'
-    else:
-        precio = plata(p["precio"])
+        # Varios precios (tamaños o variantes): cada uno en su propia línea, con su nombre a la izquierda.
+        filas = "".join(
+            f'<li><span class="tam-nombre">{esc(e)}</span><span class="dots" aria-hidden="true"></span>'
+            f'<span class="precio">{plata(v)}</span></li>'
+            for e, v in p["precio"])
+        return f'<li class="item">{nombre}{detalle}<ul class="tamanos">{filas}</ul></li>'
     return (f'<li class="item"><div class="item-top">{nombre}<span class="dots" aria-hidden="true"></span>'
-            f'<span class="precio">{precio}</span></div>{detalle}</li>')
+            f'<span class="precio">{plata(p["precio"])}</span></div>{detalle}</li>')
 
 
 def promo(p):
