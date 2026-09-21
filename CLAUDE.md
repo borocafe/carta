@@ -33,12 +33,28 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   dirección, Instagram (SVG inline) y "Carta vigente · <mes>".
 - Grupos (`h2`) con subsecciones (`h3` verde). Un grupo con una sola sección del mismo nombre (Pan) no repite
   el título. Bandas en grabado antes de Café, Dulces y Pan (`BANDAS` en `armar_sitio.py`, por slug).
+- Navegación: hasta 4 grupos van en una fila; con más (hoy 5: Combos, Café, Comida, Dulces, Pan) van de a 3 por
+  fila, para que quepan en celular.
 - Descartado por el usuario: foto editorial, la banda vectorial de pan con café, la contratapa ilustrada,
   la lista de notas final y la navegación de 10 botones.
 
+## Carta oficial (fuente del contenido)
+
+- `carta_boro_cafe_editable_v3.pptx` (21-09-2026) es la carta oficial impresa: 3 láminas A4 (portada con promos
+  y combos, «Café & bebidas» de la barra, «Para comer» de la vitrina). El texto extraído está en
+  `marca/carta-oficial-texto.txt`.
+- `datos/carta.xlsx` se transcribió de ahí **sin cambiar precios ni nombres**. Cambios respecto de la versión
+  anterior del sitio: salen los Desayunos (tostadas, yogurt, pastrami), el cornetto de jamón queso y los panes
+  chicos (ciabatta, brioche, baguette); entran Combos y promos de la mañana; los almuerzos y las tartaletas
+  dejan de ser precio único; varios precios suben o bajan.
+- Los productos con dos precios (Ensaladas, Cornetto relleno, Tartaletas, Helados) usan el formato de tamaños
+  `etiqueta: precio / etiqueta: precio`.
+
 ## Datos del café
 
-- Nombre **Boró Café**. Av. Los Leones 2380, esquina Tranquila, Providencia. Instagram `@borocafe.cl`.
+- Nombre **Boró Café**. Dirección como en la carta oficial: «Los Leones esq Tranquila, Providencia»
+  (la lámina 3 dice «Los Leones 2299» y el sitio usaba 2380; el usuario decidió dejar lo de la PPT).
+  Instagram `@borocafe.cl`.
 - Falta el horario. `borocafe.cl` está registrado (mayo 2026, "Servicio de alimentación Del Campo Tomicic
   Ltda") y sin DNS.
 
@@ -55,5 +71,6 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 
 ## Pendiente
 
-- Horario del local.
+- Regla del usuario (21-09-2026): lo que no está en la carta oficial no va en el sitio. Por eso no hay
+  horario del local ni sección de desayunos.
 - Repo viejo `mberlin84/carta` sigue publicado: archivar o redirigir (preguntado, sin respuesta).

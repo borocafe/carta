@@ -1,0 +1,124 @@
+
+=========== LÁMINA 1 ===========
+
+-- caja y=1.5748 x=7.493
+    CAFÉ DE ESPECIALIDAD|8pt,N,66744F|
+    Boró|44pt,N,3A2A20|  Café|44pt,N,3A2A20|
+    LOS LEONES esq TRANQUILA · PROVIDENCIA|8pt,6B5646|
+
+-- caja y=6.1595 x=5.461
+    De lunes a Viernes 8:00a 10:30|10pt,N,66744F|
+    Tu café a |29pt,N,3A2A20|
+    2.500|25pt,N,A95A37|
+    con cualquier compra de |11.5pt,6B5646| salados|11.5pt,6B5646|  o |11.5pt,6B5646| dulces|11.5pt,6B5646| pide|11.5pt,6B5646|  un café ristretto, espresso, americano o |11.5pt,6B5646| lungo|11.5pt,6B5646|
+
+-- caja y=10.308163888888888 x=6.138333333333334
+    De lunes a Viernes 8:00a 10:30|10pt,N,66744F|
+    Tu café con leche a |29pt,N,3A2A20| 3.000|25pt,N,A95A37|
+    con cualquier compra de |11.5pt,6B5646| salados|11.5pt,6B5646|  o |11.5pt,6B5646| dulces|11.5pt,6B5646| , |11.5pt,6B5646| pide|11.5pt,6B5646| tu|11.5pt,6B5646|  café macchiato cappuccino, latte o flat white. |11.5pt,6B5646|
+    Si lo |11.5pt,6B5646| quieres|11.5pt,6B5646|  con leche de |11.5pt,6B5646| avena|11.5pt,6B5646| , son |11.5pt,6B5646| 800|12pt,N,A95A37|  pesos |11.5pt,6B5646| adicionales|11.5pt,6B5646|
+
+-- caja y=15.282333333333334 x=4.064
+    COMBOS|9pt,N,3A2A20|
+    Desayuno|14pt,N,3A2A20| Liviano|14pt,N,3A2A20| 4.900|11pt,N,A95A37|
+    café  + yogurt con granola|11pt,6B5646|
+    Brunch  |14pt,N,3A2A20| 10.900|11pt,N,A95A37|
+    café + jugo de |11pt,6B5646| naranja|11pt,6B5646|  + croissant jamón queso + dulce chico (|11pt,6B5646| palmerita|11pt,6B5646| , |11pt,6B5646| rollo|11pt,6B5646|  de |11pt,6B5646| canela|11pt,6B5646|  o galleta |11pt,6B5646| chocochips|11pt,6B5646| )|11pt,6B5646|
+    Almuerzo + |14pt,N,3A2A20| Bebestible|14pt,N,3A2A20| 7.900|11pt,N,A95A37|
+    cualquier almuerzo + |11pt,6B5646| bebida|11pt,6B5646|
+    Once de Barrio  |14pt,N,3A2A20| 4.900|11pt,N,A95A37|
+    café + dulce chico |11pt,6B5646| (|11pt,6B5646| palmerita|11pt,6B5646| , |11pt,6B5646| rollo|11pt,6B5646|  de |11pt,6B5646| canela|11pt,6B5646|  o galleta |11pt,6B5646| chocochips|11pt,6B5646| )|11pt,6B5646|
+
+=========== LÁMINA 2 ===========
+
+-- caja y=1.905 x=2.0066
+    DE LA BARRA|8pt,N,66744F|
+    Café & bebidas|32pt,N,3A2A20|
+
+-- caja y=5.0376666666666665 x=2.0066
+    CAFÉ DE ESPECIALIDAD|9pt,N,3A2A20|
+    Trabajamos grano de especialidad, tostado para |10.5pt,6B5646| Boró|10.5pt,6B5646|  Café.|10.5pt,6B5646|
+    Espresso|11.5pt,N,3A2A20|  — corto e intenso, nuestro origen del mes|11.5pt,6B5646|   3.200|9.5pt,N,A95A37|
+    Ristretto|11.5pt,N,3A2A20|  — el corazón del espresso|11.5pt,6B5646|   3.200|9.5pt,N,A95A37|
+    Americano |11.5pt,N,3A2A20| —  |11.5pt,6B5646| cuerpo|11.5pt,6B5646|  suave, para la |11.5pt,6B5646| sobremesa|11.5pt,6B5646|   3.300|9.5pt,N,A95A37|
+    Lungo|11.5pt,N,3A2A20|  —espresso con |11.5pt,6B5646| más|11.5pt,6B5646| tiempo|11.5pt,6B5646|  de |11.5pt,6B5646| extracción|11.5pt,6B5646| 3.300|9.5pt,N,A95A37|
+    Macchiato|11.5pt,N,3A2A20|  — espresso "manchado" con espuma|11.5pt,6B5646|   3.400|9.5pt,N,A95A37|
+    Cappuccino|11.5pt,N,3A2A20|  — equilibrio clásico de espresso y leche sedosa|11.5pt,6B5646|   3.700|9.5pt,N,A95A37|
+    Latte |11.5pt,N,3A2A20| — leche |11.5pt,6B5646| texturizada|11.5pt,6B5646| , latte art de la casa|11.5pt,6B5646|   4.000|9.5pt,N,A95A37|
+    Flat White|11.5pt,N,3A2A20|  — espresso con |11.5pt,6B5646| una|11.5pt,6B5646| capa|11.5pt,6B5646| fina|11.5pt,6B5646|  y |11.5pt,6B5646| sedosa|11.5pt,6B5646|  de leche|11.5pt,6B5646|   4.000|9.5pt,N,A95A37|
+    Mocaccino|11.5pt,N,3A2A20|  — café y chocolate, |11.5pt,6B5646| una|11.5pt,6B5646| mezcla|11.5pt,6B5646|  que |11.5pt,6B5646| abraza|11.5pt,6B5646| 4.500|9.5pt,N,A95A37|
+    Dirty Chai Latte|11.5pt,N,3A2A20|  — café y chai|11.5pt,6B5646|   4.500|9.5pt,N,A95A37|
+    Chocolate caliente|11.5pt,N,3A2A20|  — espeso, de verdad|11.5pt,6B5646|   4.600|9.5pt,N,A95A37|
+    Cámbialo|10.5pt,6B5646|  a leche vegetal (|10.5pt,6B5646| avena|10.5pt,6B5646| )|10.5pt,6B5646|   +800|9pt,N,A95A37|
+    CAFÉ Y BEBIDAS FRÍAS|9pt,N,3A2A20|
+    La tendencia que no se va.|10.5pt,6B5646|
+    Cold Brew|11.5pt,N,3A2A20|  — 12 horas de extracción en frío|11.5pt,6B5646|   4.200|9.5pt,N,A95A37|
+    Ice Cappuccino|11.5pt,N,3A2A20|  — cappuccino |11.5pt,6B5646| cremoso|11.5pt,6B5646| más|11.5pt,6B5646| hielo|11.5pt,6B5646|   4.200|9.5pt,N,A95A37|
+    Iced Latte |11.5pt,N,3A2A20| — latte |11.5pt,6B5646| sobre|11.5pt,6B5646| hielo|11.5pt,6B5646|   4.500|9.5pt,N,A95A37|
+    Affogato|11.5pt,N,3A2A20|  — helado de vainilla ahogado en espresso|11.5pt,6B5646|   4.600|9.5pt,N,A95A37|
+    Ice Matcha / Ice Chai Latte|11.5pt,N,3A2A20|  — verde vibrante o especiado|11.5pt,6B5646|   4.600|9.5pt,N,A95A37|
+    Ice Tea de la casa|11.5pt,N,3A2A20|   3.500|9.5pt,N,A95A37|
+
+-- caja y=11.43 x=12.0904
+    TÉ, MATCHA E INFUSIONES|9pt,N,3A2A20|
+    Matcha Latte|11.5pt,N,3A2A20|  — matcha ceremonial batido|11.5pt,6B5646|   4.200|9.5pt,N,A95A37|
+    Chai Latte|11.5pt,N,3A2A20|  — especias que reconfortan|11.5pt,6B5646|   4.200|9.5pt,N,A95A37|
+    Golden Milk|11.5pt,N,3A2A20|  — cúrcuma, jengibre y miel|11.5pt,6B5646|   4.200|9.5pt,N,A95A37|
+    Té e infusiones |11.5pt,N,3A2A20| seleccionadas|11.5pt,N,3A2A20|   3.000|9.5pt,N,A95A37|
+    BEBIDAS|9pt,N,3A2A20|
+    Jugo de naranja |11.5pt,N,3A2A20| exprimido|11.5pt,N,3A2A20|   3.900|9.5pt,N,A95A37|
+    Jugo natural del día|11.5pt,N,3A2A20|   3.600|9.5pt,N,A95A37|
+    Latas|11.5pt,N,3A2A20|  de |11.5pt,N,3A2A20| bebida|11.5pt,N,3A2A20|  / Agua|11.5pt,N,3A2A20|   1.800|9.5pt,N,A95A37|
+    Cerveza sin alcohol|11.5pt,N,3A2A20|   2.200|9.5pt,N,A95A37|
+
+-- caja y=26.035 x=11.176
+    BORO CAFÉ · LOS LEONES esq TRANQUILA, PROVIDENCIA|7.5pt,6B5646|
+
+=========== LÁMINA 3 ===========
+
+-- caja y=1.905 x=10.8204
+    DE LA VITRINA|8pt,N,66744F|
+    Para comer|32pt,N,3A2A20|
+
+-- caja y=5.08 x=10.792883333333334
+    SALADOS Y SÁNDWICHES|9pt,N,3A2A20|
+    Croissant de |11.5pt,N,3A2A20| jamón|11.5pt,N,3A2A20|  y queso|11.5pt,N,3A2A20|   4.800|9.5pt,N,A95A37|
+    Croissant de salmón y queso crema|11.5pt,N,3A2A20|   6.700|9.5pt,N,A95A37|
+    Baguette de roast beef|11.5pt,N,3A2A20|   5.200|9.5pt,N,A95A37|
+    Ciabatta de pollo |11.5pt,N,3A2A20| mediterráneo|11.5pt,N,3A2A20|   4.700|9.5pt,N,A95A37|
+    Ciabatta Caprese|11.5pt,N,3A2A20|   4.200|9.5pt,N,A95A37|
+    Prensado de jamón y queso|11.5pt,N,3A2A20|   4.500|9.5pt,N,A95A37|
+    ALMUERZOS|9pt,N,3A2A20|
+    Ensaladas|11.5pt,N,3A2A20|
+    César · |11.5pt,6B5646| Vegetariana|11.5pt,6B5646| 6.590|9.5pt,N,A95A37|
+    Pollo con quinoa |11.5pt,6B5646| · |11.5pt,6B5646| Salmón|11.5pt,6B5646| ahumado|11.5pt,6B5646| 6.990|9.5pt,N,A95A37|
+    Gohans|11.5pt,N,3A2A20|
+    Camarón|11.5pt,6B5646|  · Pollo teriyaki · |11.5pt,6B5646| Salmón|11.5pt,6B5646| ahumado|11.5pt,6B5646| 6.990|9.5pt,N,A95A37|
+    Pastas|11.5pt,N,3A2A20|
+    Fetuccine|11.5pt,6B5646|  boloñesa · |11.5pt,6B5646| Lasaña|11.5pt,6B5646| 6.990|9.5pt,N,A95A37|
+    Wrap del día |11.5pt,N,3A2A20| 6.390|9.5pt,N,A95A37|
+
+-- caja y=8.4709 x=2.0066
+    PASTELERÍA Y DULCES|9pt,N,3A2A20|
+    Cornetto relleno|11.5pt,N,3A2A20|
+    Pastelera|11.5pt,6B5646| italiana|11.5pt,6B5646|   3.700|9.5pt,N,A95A37|
+    Nutella · |11.5pt,6B5646| Pistacho|11.5pt,6B5646|  ·  |11.5pt,6B5646| 4.800|9.5pt,N,A95A37|
+    Tartaletas|11.5pt,N,3A2A20|
+    Chocolate menta · Pie de |11.5pt,6B5646| limón|11.5pt,6B5646|   3.400|9.5pt,N,A95A37|
+    Pistacho|11.5pt,6B5646| 4.200|9.5pt,N,A95A37|
+    Brookie / Brownie|11.5pt,N,3A2A20|   3.400|9.5pt,N,A95A37|
+    Pan de chocolate|11.5pt,N,3A2A20|   3.900|9.5pt,N,A95A37|
+    Galleta chocochips|11.5pt,N,3A2A20|  — |11.5pt,6B5646|  2.900|9.5pt,N,A95A37|
+    Rollo de |11.5pt,N,3A2A20| canela|11.5pt,N,3A2A20|   2.400|9.5pt,N,A95A37|
+    Palmerita|11.5pt,N,3A2A20| 2.400|9.5pt,N,A95A37|
+    Helados |11.5pt,N,3A2A20| artesanales|11.5pt,N,3A2A20|
+    180 ml |11.5pt,6B5646| 4.500|9.5pt,N,A95A37|
+    500 ml |11.5pt,6B5646| 9.500|9.5pt,N,A95A37|
+    PANADERÍA DE MASA MADRE|9pt,N,3A2A20|
+    Para llevar|10.5pt,6B5646|
+    Hogaza blanca de masa madre|11.5pt,N,3A2A20|   4.800|9.5pt,N,A95A37|
+    Hogaza semi integral de masa madre|11.5pt,N,3A2A20|   4.900|9.5pt,N,A95A37|
+    Hogaza 100% integral|11.5pt,N,3A2A20|   4.900|9.5pt,N,A95A37|
+
+-- caja y=26.035 x=1.524
+    BORO CAFÉ · LOS LEONES 2299, PROVIDENCIA|7.5pt,6B5646|
