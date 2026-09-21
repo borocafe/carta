@@ -38,14 +38,34 @@ K = 2                         # supermuestreo al dibujar
 
 
 def sello(diametro):
-    """Sello con el anillo completo (marca/logo-completo.webp), recortado en círculo."""
+    """
+    Medallón para el centro del QR: el corazón del sello (la rama y «Boró café») sobre un disco crema
+    con aro verde. El anillo de texto chico del sello completo, a este tamaño, sale como una mancha.
+    """
     maestro = RAIZ / "marca" / "logo-completo.webp"
     fuente_logo = maestro if maestro.exists() else RAIZ / "marca" / "logo-original.webp"
-    orig = Image.open(fuente_logo).convert("RGBA").resize((diametro, diametro), Image.LANCZOS)
-    m = Image.new("L", (diametro * 4, diametro * 4), 0)
-    ImageDraw.Draw(m).ellipse((0, 0, diametro * 4 - 1, diametro * 4 - 1), fill=255)
-    orig.putalpha(m.resize((diametro, diametro), Image.LANCZOS))
-    return orig
+    orig = Image.open(fuente_logo).convert("RGBA")
+    n = orig.width
+    c, rc = n / 2, 0.60 * n / 2      # hasta el 60 % del radio: rama + «Boró café», sin el anillo de texto
+    contenido = orig.crop((round(c - rc), round(c - rc), round(c + rc), round(c + rc)))
+
+    S = 4  # supermuestreo
+    D = diametro * S
+    disco = Image.new("RGBA", (D, D), (0, 0, 0, 0))
+    d = ImageDraw.Draw(disco)
+    d.ellipse((0, 0, D - 1, D - 1), fill=CREMA + (255,))
+    aro = max(2, round(D * 0.055))
+    d.ellipse((aro / 2, aro / 2, D - aro / 2, D - aro / 2), outline=OLIVA + (255,), width=aro)
+    lado = round(D * 0.78)
+    contenido = contenido.resize((lado, lado), Image.LANCZOS)
+    # En círculo: las esquinas del recorte cuadrado alcanzan el anillo del sello y salían como un cuadrado.
+    recorte = Image.new("L", (lado * 4, lado * 4), 0)
+    ImageDraw.Draw(recorte).ellipse((0, 0, lado * 4 - 1, lado * 4 - 1), fill=255)
+    alfa = contenido.getchannel("A").point(lambda v: v)
+    alfa = Image.composite(alfa, Image.new("L", (lado, lado), 0), recorte.resize((lado, lado), Image.LANCZOS))
+    contenido.putalpha(alfa)
+    disco.alpha_composite(contenido, ((D - lado) // 2, (D - lado) // 2))
+    return disco.resize((diametro, diametro), Image.LANCZOS)
 
 
 def matriz(url):
@@ -181,7 +201,7 @@ def tarjeta(qr_img, destino_png, destino_pdf):
         rr = radio * k / 4
         d.arc((x0 - rr, cy - rr, x0 + rr, cy + rr), start=-50, end=50, fill=OLIVA, width=max(2, round(0.42 * mm)))
     d.text((x0 + radio + separacion, y_cta), llamado, font=f_cta, fill=OLIVA)
-    centrado("@borocafe.cl  ·  Los Leones 2299, Providencia", y_qr + lado_qr + round(20 * mm),
+    centrado("@borocafe.cl  ·  Av. Los Leones 2299, Providencia", y_qr + lado_qr + round(20 * mm),
              fuente(round(3.0 * mm), "Regular"), color=TINTA_SUAVE)
     t.save(destino_png, dpi=(300, 300))
     t.save(destino_pdf, "PDF", resolution=300)
