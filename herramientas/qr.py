@@ -35,7 +35,10 @@ LOGO_FRAC = 0.24              # ancho del sello / ancho del símbolo
 
 def sello(diametro):
     """Sello original recortado en círculo, con un anillo blanco que lo separa de los módulos."""
-    orig = Image.open(RAIZ / "marca" / "logo-original.webp").convert("RGBA").resize((diametro, diametro), Image.LANCZOS)
+    # El maestro con el anillo completo (herramientas/logo.py); el original viene recortado.
+    maestro = RAIZ / "marca" / "logo-completo.webp"
+    fuente_logo = maestro if maestro.exists() else RAIZ / "marca" / "logo-original.webp"
+    orig = Image.open(fuente_logo).convert("RGBA").resize((diametro, diametro), Image.LANCZOS)
     m = Image.new("L", (diametro * 4, diametro * 4), 0)
     ImageDraw.Draw(m).ellipse((0, 0, diametro * 4 - 1, diametro * 4 - 1), fill=255)
     orig.putalpha(m.resize((diametro, diametro), Image.LANCZOS))

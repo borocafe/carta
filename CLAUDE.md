@@ -31,12 +31,17 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   Italiana, Cormorant Garamond y Jost; columna de 620 px máx.
 - Portada: lámina art déco con el sello al centro (`<h1 class="logo">`). Pie oliva con el sello en crema,
   dirección, Instagram (SVG inline) y "Carta vigente · <mes>".
-- Grupos (`h2`) con subsecciones (`h3` verde). Un grupo con una sola sección del mismo nombre (Pan) no repite
-  el título. Bandas en grabado antes de Café, Dulces y Pan (`BANDAS` en `armar_sitio.py`, por slug).
-- Navegación: hasta 4 grupos van en una fila; con más (hoy 5: Combos, Café, Comida, Dulces, Pan) van de a 3 por
-  fila, para que quepan en celular.
+- Grupos (`h2`) con subsecciones (`h3` verde), con **las mismas agrupaciones que la carta oficial**:
+  Combos, «Café & bebidas» (de la barra) y «Para comer» (de la vitrina). Un grupo con una sola sección del
+  mismo nombre no repite el título.
+- **Sin ilustraciones entremedio** (decisión del usuario, 21-09-2026): las bandas quedaron en
+  `marca/anteriores/` y la única imagen de la carta es la portada.
+- **El logo original viene recortado**: su anillo llega cortado en los cuatro bordes. `herramientas/logo.py`
+  detecta el círculo real, lo completa, deja 3,5 % de margen y escribe `marca/logo-completo.webp` (maestro, lo
+  usa también el QR) más `docs/assets/logo.webp` y `logo-claro.webp`. En la portada el sello va al 86 %.
+- Navegación: hasta 4 grupos en una fila; con más, de a 3 por fila.
 - Descartado por el usuario: foto editorial, la banda vectorial de pan con café, la contratapa ilustrada,
-  la lista de notas final y la navegación de 10 botones.
+  la lista de notas final, la navegación de 10 botones y las ilustraciones entre secciones.
 
 ## Carta oficial (fuente del contenido)
 
@@ -65,8 +70,10 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   claude.ai.
 - `qr.py`: QR a `/carta/ir/`, corrección H, sello al 24 %, tarjeta A6 con ícono NFC. Se verifica con los dos
   detectores de OpenCV, porque el clásico falla en imágenes grandes incluso sin sello.
+- `logo.py`: reconstruye el sello completo desde `marca/logo-original.webp`.
 - ComfyUI en `https://win.tail8f8496.ts.net:8443` (`flux1-schnell-fp8`, Apache 2.0). `generar.py`,
-  `bandas.py`. schnell ignora el prompt negativo; con "mesa + pared" sale foto aunque se pida grabado.
+  `bandas.py` (las ilustraciones ya no se usan en la carta). schnell ignora el prompt negativo; con
+  "mesa + pared" sale foto aunque se pida grabado.
 - Preview local: `.claude/launch.json` → `carta` (http.server sobre `docs/`).
 
 ## Pendiente
