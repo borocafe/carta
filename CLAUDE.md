@@ -29,8 +29,10 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 
 - Papel `#f4e8d0`; acento `--marca:#5f672a` (verde del logo `#687030` oscurecido para contraste 5:1);
   Italiana, Cormorant Garamond y Jost; columna de 620 px máx.
-- Portada: lámina art déco con el sello al centro (`<h1 class="logo">`). Pie oliva con el sello en crema,
-  dirección, Instagram (SVG inline) y "Carta vigente · <mes>".
+- **Portada y pie son el mismo gesto** (decisión del usuario, 22-09-2026): bloque oliva `--pie:#4b5324` con
+  filete interior, el sello en crema (`logo-claro.webp`), «Carta» arriba y la bajada en dos líneas. Ya no hay
+  lámina ilustrada: `portada.webp` quedó en `marca/anteriores/`. El pie suma dirección, Instagram y la fecha.
+- La carta ya no carga ninguna ilustración: la única imagen es el sello (todo el sitio pesa ~170 KB).
 - Grupos (`h2`) con subsecciones (`h3` verde), con **las mismas agrupaciones que la carta oficial**:
   Combos, «Café & bebidas» (de la barra) y «Para comer» (de la vitrina). Un grupo con una sola sección del
   mismo nombre no repite el título.
@@ -41,7 +43,10 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   usa también el QR) más `docs/assets/logo.webp` y `logo-claro.webp`. En la portada el sello va al 86 %.
 - **Secciones que empiezan con «Promo»** se muestran como tarjetas (`.promo`), no como lista de precios:
   nombre en serif, precio en verde y la condición debajo, como la portada de la carta impresa.
-- Navegación: hasta 4 grupos en una fila; con más, de a 3 por fila.
+- Navegación: hasta 4 grupos en una fila; con más, de a 3 por fila. El botón verde **no** usa
+  `IntersectionObserver` (fallaba en celulares: el grupo anterior seguía tocando la franja y el verde no
+  pasaba al siguiente). Se calcula en cada scroll: gana el último grupo cuyo título ya pasó bajo la barra,
+  y al final de la página gana siempre el último.
 - Descartado por el usuario: foto editorial, la banda vectorial de pan con café, la contratapa ilustrada,
   la lista de notas final, la navegación de 10 botones y las ilustraciones entre secciones.
 

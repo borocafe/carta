@@ -23,27 +23,27 @@ img{display:block; max-width:100%; height:auto}
 a{color:inherit}
 
 /* ---------- portada ---------- */
-.portada{position:relative}
-.portada-txt{
-  position:absolute; inset:0; display:flex; flex-direction:column;
-  justify-content:center; align-items:center; text-align:center; padding:0 20%;
+.portada{
+  position:relative; background:var(--pie); color:var(--pie-tinta);
+  padding-block:66px 58px; text-align:center;
 }
-.portada-txt .kicker{
-  margin:0 0 14px; font-size:11px; letter-spacing:.34em; text-transform:uppercase;
-  color:var(--marca); font-weight:400;
+.portada::after{  /* filete interior, como el marco de una carta impresa */
+  content:""; position:absolute; inset:13px; border:1px solid var(--pie-linea); pointer-events:none;
 }
-.portada-txt h1{
-  margin:0; font-family:var(--display); font-weight:400;
-  font-size:clamp(34px,9.5vw,50px); line-height:1.05; letter-spacing:.02em;
-  text-wrap:balance; color:var(--ink);
+.portada-inner{
+  position:relative; display:flex; flex-direction:column; align-items:center; gap:24px; padding-inline:30px;
 }
-.portada-txt .bajada{
-  margin:16px 0 0; font-size:12.5px; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--ink-soft); font-weight:300; line-height:1.6;
+.portada .kicker{
+  margin:0; font-size:11px; letter-spacing:.36em; text-transform:uppercase;
+  color:var(--pie-suave); font-weight:400;
 }
-
-.portada-txt h1.logo{width:86%; font-size:0; line-height:0}
-.portada-txt h1.logo img{width:100%; height:auto}
+.portada h1.logo{margin:0; width:min(62%,212px); font-size:0; line-height:0}
+.portada h1.logo img{width:100%; height:auto}
+.portada .bajada{
+  margin:0; max-width:26ch; font-size:11.5px; letter-spacing:.17em; text-transform:uppercase;
+  color:var(--pie-suave); font-weight:300; line-height:1.8;
+}
+.portada .filete-portada{width:44px; height:1px; background:var(--pie-linea)}
 
 /* ---------- navegación ---------- */
 .nav{
@@ -142,7 +142,12 @@ a{color:inherit}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 </style>
 <div class="hoja">
-<header class="portada"><img src="assets/portada.webp" width="952" height="1269" alt="" fetchpriority="high"><div class="portada-txt"><p class="kicker">Carta</p><h1 class="logo"><img src="assets/logo.webp" width="600" height="600" alt="Boró Café · Pan · Café de especialidad · Bollería"></h1></div></header>
+<header class="portada"><div class="portada-inner">
+<p class="kicker">Carta</p>
+<h1 class="logo"><img src="assets/logo-claro.webp" width="400" height="400" alt="Boró Café · Pan · Café de especialidad · Bollería"></h1>
+<div class="filete-portada" aria-hidden="true"></div>
+<p class="bajada">Café de especialidad<br>Pan de masa madre</p>
+</div></header>
 <!-- NAV -->
 <!-- CARTA -->
 <footer class="pie"><div class="pie-inner">
@@ -159,23 +164,31 @@ a{color:inherit}
 (function(){
   var links = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
   var secs  = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
-  if(!('IntersectionObserver' in window) || !secs.length) return;
-  var visibles = [];
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      var i = secs.indexOf(en.target);
-      var pos = visibles.indexOf(i);
-      if(en.isIntersecting && pos === -1) visibles.push(i);
-      if(!en.isIntersecting && pos !== -1) visibles.splice(pos, 1);
-    });
-    if(!visibles.length) return;
-    var activo = Math.min.apply(null, visibles);
-    links.forEach(function(a, j){ a.classList.toggle('is-active', activo === j); });
-    var chip = links[activo], nav = chip && chip.parentNode;
-    if(nav && nav.scrollWidth > nav.clientWidth){
-      nav.scrollTo({left: chip.offsetLeft - nav.clientWidth/2 + chip.clientWidth/2, behavior:'smooth'});
+  var nav = document.querySelector('.nav');
+  if(!links.length || !nav) return;
+  var pedido = false;
+
+  function marcar(){
+    pedido = false;
+    var limite = nav.getBoundingClientRect().height + 8;
+    var activo = -1;
+    for(var i = 0; i < secs.length; i++){
+      if(secs[i] && secs[i].getBoundingClientRect().top <= limite) activo = i;
     }
-  }, { rootMargin: '-58px 0px -60% 0px' });
-  secs.forEach(function(s){ if(s) io.observe(s); });
+    // Al final de la página gana siempre el último grupo, aunque su título ya haya pasado.
+    if(window.innerHeight + window.pageYOffset >= document.documentElement.scrollHeight - 4) activo = secs.length - 1;
+    for(var j = 0; j < links.length; j++) links[j].classList.toggle('is-active', j === activo);
+    var chip = links[activo], caja = nav.firstElementChild;
+    if(chip && caja && caja.scrollWidth > caja.clientWidth){
+      caja.scrollTo({left: chip.offsetLeft - caja.clientWidth/2 + chip.clientWidth/2, behavior:'smooth'});
+    }
+  }
+
+  function pedir(){ if(!pedido){ pedido = true; requestAnimationFrame(marcar); } }
+  addEventListener('scroll', pedir, {passive:true});
+  addEventListener('resize', pedir);
+  addEventListener('hashchange', pedir);
+  addEventListener('load', pedir);
+  marcar();
 })();
 </script>
