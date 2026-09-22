@@ -27,12 +27,13 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 
 ## Diseño (`fuente/carta.html` es plantilla con `<!-- NAV -->`, `<!-- CARTA -->`, `<!-- MES -->`)
 
-- **Paleta tomada de fotos del local** (22-09-2026): papel `#f7f1e6` (azulejo del muro), tinta `#3b2c22`
-  (madera de las repisas), `--madera:#b07552` (la mesa) para filetes, `--pizarra:#20211f` + `--tiza:#f2efe6`
-  para las promos, que imitan los carteles de precio de la vitrina. Acento `--marca:#5f672a`
-  (verde del logo `#687030` oscurecido para contraste 5:1);
+- **Paleta: papel crema y un solo verde, el de las sillas del local** (22-09-2026). El usuario descartó la
+  paleta sacada de las fotos (madera + azulejo + pizarritas) y pidió volver al diseño anterior cambiando
+  el verde oscuro por el de la silla. Papel `#f4e8d0`; la silla es `#797f61` (`--olive`, detalles), los
+  bloques y el botón activo usan `--pie:#60654d` y precios y títulos `--marca:#565b45`: el mismo verde en
+  tres profundidades, todas sobre 5:1. `#797f61` puro da 3.45:1 con el crema, por eso no se usa en texto.
   Italiana, Cormorant Garamond y Jost; columna de 620 px máx.
-- **Portada y pie son el mismo gesto** (decisión del usuario, 22-09-2026): bloque oliva `--pie:#4b5324` con
+- **Portada y pie son el mismo gesto** (decisión del usuario, 22-09-2026): bloque verde `--pie` con
   filete interior, el sello en crema (`logo-claro.webp`), «Carta» arriba y la bajada en dos líneas. Ya no hay
   lámina ilustrada: `portada.webp` quedó en `marca/anteriores/`. El pie suma dirección, Instagram y la fecha.
 - La carta ya no carga ninguna ilustración: la única imagen es el sello (todo el sitio pesa ~170 KB).
