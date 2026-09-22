@@ -27,7 +27,10 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 
 ## Diseño (`fuente/carta.html` es plantilla con `<!-- NAV -->`, `<!-- CARTA -->`, `<!-- MES -->`)
 
-- Papel `#f4e8d0`; acento `--marca:#5f672a` (verde del logo `#687030` oscurecido para contraste 5:1);
+- **Paleta tomada de fotos del local** (22-09-2026): papel `#f7f1e6` (azulejo del muro), tinta `#3b2c22`
+  (madera de las repisas), `--madera:#b07552` (la mesa) para filetes, `--pizarra:#20211f` + `--tiza:#f2efe6`
+  para las promos, que imitan los carteles de precio de la vitrina. Acento `--marca:#5f672a`
+  (verde del logo `#687030` oscurecido para contraste 5:1);
   Italiana, Cormorant Garamond y Jost; columna de 620 px máx.
 - **Portada y pie son el mismo gesto** (decisión del usuario, 22-09-2026): bloque oliva `--pie:#4b5324` con
   filete interior, el sello en crema (`logo-claro.webp`), «Carta» arriba y la bajada en dos líneas. Ya no hay
