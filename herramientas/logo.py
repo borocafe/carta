@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw
 RAIZ = Path(__file__).resolve().parent.parent
 ORIGINAL = RAIZ / "marca" / "logo-original.webp"
 MAESTRO = RAIZ / "marca" / "logo-completo.webp"
-CREMA = (244, 232, 208)
+CREMA = (253, 248, 236)  # mismo crema que el texto sobre el bloque verde (--pie-tinta)
 MARGEN = 0.035  # del radio, para que el anillo no toque el borde de la imagen
 
 
