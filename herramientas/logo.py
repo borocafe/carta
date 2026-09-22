@@ -9,7 +9,8 @@ Uso (necesita PIL y numpy):
 Escribe:
     marca/logo-completo.webp   maestro RGBA con el anillo cerrado (lo usa el QR)
     docs/assets/logo.webp      640 px, verde del logo, para la portada
-    docs/assets/logo-claro.webp 420 px, crema, para el pie oliva
+    docs/assets/logo-claro.webp 420 px, crema, para los bloques verdes
+    manual/img/logo-claro.png  640 px, crema, para la portada del manual
 """
 from pathlib import Path
 
@@ -102,6 +103,10 @@ def main():
     claro = Image.new("RGBA", (420, 420), CREMA + (0,))
     claro.putalpha(maestro.getchannel("A").resize((420, 420), Image.LANCZOS))
     claro.save(RAIZ / "docs" / "assets" / "logo-claro.webp", "WEBP", quality=82, alpha_quality=90, method=6)
+    # el manual usa el mismo sello crema en la portada; reportlab no lee webp, va en png
+    claro_png = Image.new("RGBA", (640, 640), CREMA + (0,))
+    claro_png.putalpha(maestro.getchannel("A").resize((640, 640), Image.LANCZOS))
+    claro_png.save(RAIZ / "manual" / "img" / "logo-claro.png")
 
     a = np.asarray(verde.getchannel("A"))
     print(f"maestro {maestro.size} · logo.webp 640 px · opacidad máxima en los bordes: "

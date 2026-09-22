@@ -36,9 +36,11 @@ URL_HISTORIAL = "https://github.com/borocafe/carta/commits/main/datos"
 URL_QR = "https://borocafe.github.io/carta/ir/"
 URL_TARJETA = "https://github.com/borocafe/carta/raw/main/qr/tarjeta-mesa.pdf"
 
-OLIVA = colors.HexColor("#4B5324")
-MARCA = colors.HexColor("#5F672A")
-CREMA = colors.HexColor("#F4E8D0")
+# Misma paleta que la carta: el verde de la silla del local en dos profundidades.
+OLIVA = colors.HexColor("#6E7456")        # bloques, cabeceras de tabla y números
+MARCA = colors.HexColor("#565B45")        # títulos y etiquetas sobre papel
+CREMA = colors.HexColor("#F4E8D0")        # el papel de la carta
+CREMA_CLARO = colors.HexColor("#FDF8EC")  # el crema que va encima del verde
 CREMA_SUAVE = colors.HexColor("#FAF5EA")
 NOTA_FONDO = colors.HexColor("#F6F0E2")
 TINTA = colors.HexColor("#3B3026")
@@ -49,6 +51,7 @@ ALERTA = colors.HexColor("#9A3F24")
 ALERTA_FONDO = colors.HexColor("#F7E7DE")
 
 ANCHO_PAGINA, ALTO_PAGINA = A4
+BANDA_PORTADA = 120 * mm  # el bloque verde de la portada, como el de la carta
 MARGEN_X, MARGEN_SUP, MARGEN_INF = 22 * mm, 24 * mm, 20 * mm
 ANCHO = ANCHO_PAGINA - 2 * MARGEN_X
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
@@ -77,12 +80,12 @@ def estilos():
         chico=ParagraphStyle("chico", fontSize=8.5, leading=12.5, fontName="Avenir", textColor=TINTA_SUAVE),
         tabla=ParagraphStyle("tabla", fontSize=9, leading=12.5, **base),
         tabla_nota=ParagraphStyle("tabla_nota", fontSize=9, leading=12.5, fontName="Avenir-Italica", textColor=TINTA_SUAVE),
-        tabla_cab=ParagraphStyle("tabla_cab", fontSize=8, leading=10, fontName="Avenir-Demi", textColor=CREMA),
-        h1=ParagraphStyle("h1", fontSize=23, leading=28, fontName="Basker", textColor=OLIVA, spaceAfter=4),
+        tabla_cab=ParagraphStyle("tabla_cab", fontSize=8, leading=10, fontName="Avenir-Demi", textColor=CREMA_CLARO),
+        h1=ParagraphStyle("h1", fontSize=23, leading=28, fontName="Basker", textColor=MARCA, spaceAfter=4),
         bajada=ParagraphStyle("bajada", fontSize=10.5, leading=15.5, fontName="Avenir", textColor=TINTA_SUAVE, spaceAfter=12),
-        h2=ParagraphStyle("h2", fontSize=14, leading=18, fontName="Basker", textColor=OLIVA, spaceBefore=16, spaceAfter=6),
+        h2=ParagraphStyle("h2", fontSize=14, leading=18, fontName="Basker", textColor=MARCA, spaceBefore=16, spaceAfter=6),
         etiqueta=ParagraphStyle("etiqueta", fontSize=7.5, leading=10, fontName="Avenir-Demi", textColor=MARCA),
-        portada_titulo=ParagraphStyle("portada_titulo", fontSize=34, leading=38, fontName="Basker", textColor=OLIVA,
+        portada_titulo=ParagraphStyle("portada_titulo", fontSize=34, leading=38, fontName="Basker", textColor=MARCA,
                                       alignment=1),
         portada_bajada=ParagraphStyle("portada_bajada", fontSize=12, leading=18, fontName="Avenir", textColor=TINTA_SUAVE,
                                       alignment=1),
@@ -106,7 +109,7 @@ def ruta_menu(*partes):
 
 
 class Numero(Flowable):
-    """Círculo oliva con el número de paso."""
+    """Círculo verde con el número de paso."""
 
     def __init__(self, n, diametro=7 * mm):
         super().__init__()
@@ -117,7 +120,7 @@ class Numero(Flowable):
         r = self.d / 2
         self.canv.setFillColor(OLIVA)
         self.canv.circle(r, r, r, stroke=0, fill=1)
-        self.canv.setFillColor(CREMA)
+        self.canv.setFillColor(CREMA_CLARO)
         self.canv.setFont("Avenir-Demi", 10)
         self.canv.drawCentredString(r, r - 3.5, self.n)
 
@@ -181,7 +184,7 @@ def imagen(ruta, ancho):
 # ---------------------------------------------------------------- contenido
 
 def portada():
-    logo = imagen(MANUAL / "img" / "logo.png", 62 * mm)
+    logo = imagen(MANUAL / "img" / "logo-claro.png", 62 * mm)
     enlaces = Table([
         [P("VER LA CARTA", "etiqueta"), P(enlace(URL_CARTA))],
         [P("DESCARGAR LA PLANILLA", "etiqueta"), P(enlace(URL_DESCARGA))],
@@ -196,7 +199,7 @@ def portada():
     ]))
     hoy = date.today()
     return [
-        Spacer(1, 22 * mm), logo, Spacer(1, 14 * mm),
+        Spacer(1, 5 * mm), logo, Spacer(1, 43 * mm),  # el sello va centrado en la banda verde
         P("Manual de la carta", "portada_titulo"), Spacer(1, 5 * mm),
         P("Cómo cambiar precios, agregar productos<br/>y publicar la carta digital de Boró Café", "portada_bajada"),
         Spacer(1, 20 * mm),
@@ -304,7 +307,7 @@ class Maqueta(Flowable):
         c = self.canv
         c.setFillColor(OLIVA)
         c.circle(x, y, d / 2, stroke=0, fill=1)
-        c.setFillColor(CREMA)
+        c.setFillColor(CREMA_CLARO)
         c.setFont("Avenir-Demi", 7.5)
         c.drawCentredString(x, y - 2.5, str(n))
 
@@ -342,7 +345,7 @@ class Maqueta(Flowable):
             c.setStrokeColor(LINEA)
             c.setLineWidth(0.5)
             c.roundRect(cx, y - 2, an, 5.5 * mm / 2 + 4, 4, stroke=1, fill=1)
-            c.setFillColor(CREMA if activo else TINTA_SUAVE)
+            c.setFillColor(CREMA_CLARO if activo else TINTA_SUAVE)
             c.setFont("Avenir", 7)
             c.drawString(cx + 4, y + 1.5, texto)
             cx += an + 4
@@ -350,7 +353,7 @@ class Maqueta(Flowable):
 
         # 1 · título del grupo
         y -= 10 * mm
-        c.setFillColor(OLIVA)
+        c.setFillColor(TINTA)
         c.setFont("Basker", 15)
         c.drawCentredString(x + ancho / 2, y, "Café & bebidas")
         y -= 4 * mm
@@ -611,7 +614,7 @@ def qr_nfc():
 
 def preguntas():
     lista = [
-        ("¿Puedo cambiar el diseño, las ilustraciones, la dirección o el horario desde la planilla?",
+        ("¿Puedo cambiar el diseño, los colores o la dirección desde la planilla?",
          "No. La planilla es solo para productos, precios y notas. Esos cambios los hace quien administra la carta."),
         ("¿Quién puede subir cambios?",
          "Cualquier persona con una cuenta gratuita de GitHub invitada a la organización. Se invita en "
@@ -634,9 +637,17 @@ def preguntas():
 # ---------------------------------------------------------------- páginas
 
 def fondo_portada(canv, doc):
+    """Papel crema con la banda verde arriba, el mismo gesto que la portada de la carta."""
     canv.saveState()
     canv.setFillColor(CREMA)
     canv.rect(0, 0, ANCHO_PAGINA, ALTO_PAGINA, stroke=0, fill=1)
+    canv.setFillColor(OLIVA)
+    canv.rect(0, ALTO_PAGINA - BANDA_PORTADA, ANCHO_PAGINA, BANDA_PORTADA, stroke=0, fill=1)
+    canv.setStrokeColor(CREMA_CLARO)
+    canv.setStrokeAlpha(0.45)
+    canv.setLineWidth(0.5)
+    canv.rect(6 * mm, ALTO_PAGINA - BANDA_PORTADA + 6 * mm, ANCHO_PAGINA - 12 * mm, BANDA_PORTADA - 12 * mm,
+              stroke=1, fill=0)
     canv.restoreState()
 
 

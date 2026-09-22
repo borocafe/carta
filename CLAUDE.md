@@ -85,7 +85,11 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   claude.ai.
 - `qr.py`: QR a `/carta/ir/`, corrección H, sello al 24 %, tarjeta A6 con ícono NFC. Se verifica con los dos
   detectores de OpenCV, porque el clásico falla en imágenes grandes incluso sin sello.
-- `logo.py`: reconstruye el sello completo desde `marca/logo-original.webp`.
+- `logo.py`: reconstruye el sello completo desde `marca/logo-original.webp` y escribe las variantes
+  (`docs/assets/logo.webp`, `logo-claro.webp` y `manual/img/logo-claro.png`, el sello crema del manual).
+- `manual.py` → `manual/Manual carta Boró Café.pdf` (9 páginas, reportlab). La miniatura de la carta se
+  dibuja en el PDF (clase `Maqueta`), no son capturas, y la muestra de la planilla se lee de
+  `datos/carta.xlsx`. Comparte paleta con la carta: hay que regenerarlo cuando cambian los colores.
 - ComfyUI en `https://win.tail8f8496.ts.net:8443` (`flux1-schnell-fp8`, Apache 2.0). `generar.py`,
   `bandas.py` (las ilustraciones ya no se usan en la carta). schnell ignora el prompt negativo; con
   "mesa + pared" sale foto aunque se pida grabado.
