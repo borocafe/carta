@@ -29,9 +29,12 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 
 - **Paleta: papel crema y un solo verde, el de las sillas del local** (22-09-2026). El usuario descartó la
   paleta sacada de las fotos (madera + azulejo + pizarritas) y pidió volver al diseño anterior cambiando
-  el verde oscuro por el de la silla. Papel `#f4e8d0`; la silla es `#797f61` (`--olive`, detalles), los
-  bloques y el botón activo usan `--pie:#60654d` y precios y títulos `--marca:#565b45`: el mismo verde en
-  tres profundidades, todas sobre 5:1. `#797f61` puro da 3.45:1 con el crema, por eso no se usa en texto.
+  el verde oscuro por el de la silla. Papel `#f4e8d0`. La silla se midió en el canto iluminado del asiento
+  de la silla del primer plano (el usuario pidió mirar esa, no la del fondo, que está en sombra):
+  **`#7a8160`** (`--olive`). Es un tono medio: encima no se lee ni el crema (3.6:1) ni el blanco puro
+  (4.0:1) ni la tinta oscura (3.2:1), así que los bloques y el botón activo van al 90 % de ese verde,
+  `--pie:#6e7456`, con crema casi blanco `--pie-tinta:#fdf8ec` (4.6:1) — lo más cerca de la silla que
+  admite texto legible. Precios y títulos sobre papel, al 70 %: `--marca:#565b45` (5.8:1).
   Italiana, Cormorant Garamond y Jost; columna de 620 px máx.
 - **Portada y pie son el mismo gesto** (decisión del usuario, 22-09-2026): bloque verde `--pie` con
   filete interior, el sello en crema (`logo-claro.webp`), «Carta» arriba y la bajada en dos líneas. Ya no hay
