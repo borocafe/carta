@@ -59,7 +59,8 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 
 ## Datos del café
 
-- Nombre **Boró Café**. Dirección: **«Av. Los Leones 2299, Providencia»**, como en la lámina 3 de la carta
+- Nombre **Boró Café**. En la carta se lee **«Los Leones esq Tranquila · Providencia»** (decisión del usuario,
+  22-09-2026), pero el enlace al mapa busca «Av. Los Leones 2299, Providencia», como en la lámina 3 de la carta
   oficial. Sin el «Av.» Google Maps mandaba a otra parte; con «Av. Los Leones 2299, Providencia» cae bien
   (el usuario lo verificó). El enlace del pie usa ese texto, sin región. Instagram `@borocafe.cl`.
 - Falta el horario. `borocafe.cl` está registrado (mayo 2026, "Servicio de alimentación Del Campo Tomicic

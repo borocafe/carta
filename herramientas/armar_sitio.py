@@ -21,7 +21,7 @@ import datos  # noqa: E402
 
 RAIZ = datos.RAIZ
 DESC = ("Carta de Boró Café: café de especialidad, pan de masa madre, bollería, desayunos y almuerzos. "
-        "Av. Los Leones 2299, Providencia.")
+        "Los Leones esq Tranquila, Providencia.")
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
          "noviembre", "diciembre"]
 

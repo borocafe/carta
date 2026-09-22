@@ -1,6 +1,6 @@
 # Carta · Boró Café
 
-Carta digital de [Boró Café](https://www.instagram.com/borocafe.cl/) — Av. Los Leones 2299, Providencia.
+Carta digital de [Boró Café](https://www.instagram.com/borocafe.cl/) — Los Leones esq Tranquila, Providencia.
 
 **En línea:** https://borocafe.github.io/carta/
 **QR y NFC de las mesas:** https://borocafe.github.io/carta/ir/ (redirige a la carta)

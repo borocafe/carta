@@ -201,7 +201,7 @@ def tarjeta(qr_img, destino_png, destino_pdf):
         rr = radio * k / 4
         d.arc((x0 - rr, cy - rr, x0 + rr, cy + rr), start=-50, end=50, fill=OLIVA, width=max(2, round(0.42 * mm)))
     d.text((x0 + radio + separacion, y_cta), llamado, font=f_cta, fill=OLIVA)
-    centrado("@borocafe.cl  ·  Av. Los Leones 2299, Providencia", y_qr + lado_qr + round(20 * mm),
+    centrado("@borocafe.cl  ·  Los Leones esq Tranquila, Providencia", y_qr + lado_qr + round(20 * mm),
              fuente(round(3.0 * mm), "Regular"), color=TINTA_SUAVE)
     t.save(destino_png, dpi=(300, 300))
     t.save(destino_pdf, "PDF", resolution=300)
