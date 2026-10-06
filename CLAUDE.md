@@ -70,6 +70,10 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   dejan de ser precio único; varios precios suben o bajan.
 - Los productos con dos precios (Ensaladas, Cornetto relleno, Tartaletas, Helados) usan el formato de tamaños
   `etiqueta: precio / etiqueta: precio`.
+- **La planilla ya no calca la PPT**: el 6-10-2026 el local subió una versión nueva por la web de GitHub.
+  Salió entero el grupo Combos (las seis promos), más Ice Cappuccino, Iced Latte, Pan de chocolate y
+  Baguette de roast beef; entraron Espresso naranja, Ice Latte e Ice Moca; Brookie/Brownie bajó a $2.900.
+  Quedan dos grupos: «Café & bebidas» y «Para comer». Manda la planilla, no la PPT.
 
 ## Datos del café
 
