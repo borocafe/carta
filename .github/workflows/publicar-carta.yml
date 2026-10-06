@@ -35,6 +35,15 @@ jobs:
       - name: Revisar la planilla y armar la carta
         run: python3 herramientas/armar_sitio.py
 
+      - name: Imprimir la carta en PDF para descargar
+        id: pdf
+        continue-on-error: true # si falla el PDF, la carta igual se publica
+        run: python3 herramientas/carta_pdf.py
+
+      - name: Avisar si no salió el PDF
+        if: steps.pdf.outcome == 'failure'
+        run: echo "::warning::No se pudo imprimir carta.pdf. La carta se publica igual, pero el enlace de descarga queda sin archivo."
+
       - name: Dejar la planilla como datos/carta.xlsx
         run: |
           python3 herramientas/planilla.py normalizar

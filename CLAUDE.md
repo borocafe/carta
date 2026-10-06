@@ -8,8 +8,10 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
 - **`datos/carta.xlsx` es la fuente de precios y productos.** El personal la descarga, la edita y la sube
   por la web de GitHub (`/upload/main/datos`) con cualquier nombre, en `.xlsx` o `.csv`.
 - `.github/workflows/publicar-carta.yml` (en cada push a main): `armar_sitio.py` valida y arma la carta →
-  `planilla.py normalizar` deja la subida como `datos/carta.xlsx` y borra las demás (commit del bot) →
-  deploy con `actions/deploy-pages`. Pages usa `build_type: workflow` (no la rama).
+  `carta_pdf.py` la imprime a `docs/carta.pdf` → `planilla.py normalizar` deja la subida como
+  `datos/carta.xlsx` y borra las demás (commit del bot) → deploy con `actions/deploy-pages`.
+  Pages usa `build_type: workflow` (no la rama). El paso del PDF es `continue-on-error`: si falla,
+  la carta igual se publica y queda un aviso en el job.
 - Si la planilla tiene errores el job falla, no se publica nada y GitHub avisa por correo. Los mensajes
   están escritos para personas: fila, producto y qué corregir.
 - La planilla vigente es la de commit más reciente en `datos/` (por eso el checkout usa `fetch-depth: 0`).
@@ -87,6 +89,11 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   detectores de OpenCV, porque el clásico falla en imágenes grandes incluso sin sello.
 - `logo.py`: reconstruye el sello completo desde `marca/logo-original.webp` y escribe las variantes
   (`docs/assets/logo.webp`, `logo-claro.webp` y `manual/img/logo-claro.png`, el sello crema del manual).
+- `carta_pdf.py` → `docs/carta.pdf` (generado, en `.gitignore`): Chrome sin interfaz imprime el mismo
+  `docs/index.html`, así el PDF nunca se separa de la web. El layout sale del bloque `@media print` de
+  `fuente/carta.html`: `@page` sin márgenes (Chrome no pinta el fondo dentro de los márgenes de página),
+  portada y pie a sangre ocupando la hoja entera, y un grupo por hoja a dos columnas. Son 5 páginas.
+  El pie de la carta lo ofrece con «Descargar la carta en PDF».
 - `manual.py` → `manual/Manual carta Boró Café.pdf` (9 páginas, reportlab). La miniatura de la carta se
   dibuja en el PDF (clase `Maqueta`), no son capturas, y la muestra de la planilla se lee de
   `datos/carta.xlsx`. Comparte paleta con la carta: hay que regenerarlo cuando cambian los colores.

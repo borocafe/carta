@@ -141,8 +141,48 @@ a{color:inherit}
 .horario dd{margin:0; font-variant-numeric:tabular-nums}
 .pie-filete{width:40px; height:1px; background:var(--pie-linea)}
 .sello{margin:0; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--pie-suave); font-weight:400}
+.pdf{margin:0; font-size:13px; font-weight:400}
+.pdf a:hover{text-decoration:underline}
 
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+
+/* ---------- impresión: de acá sale carta.pdf ----------
+   Chrome sin interfaz imprime esta misma página. Portada a página completa, un grupo por hoja y
+   el pie al final, como las láminas de la carta impresa. */
+@media print{
+  /* Sin márgenes de página: el crema llega al borde. Chrome no pinta el fondo dentro de los
+     márgenes de @page, así que el aire lo pone cada grupo con su padding. */
+  @page{size:A4; margin:0}
+  *{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  html,body{background:var(--paper)}
+  .nav,.pdf{display:none !important}
+  .hoja{max-width:none}
+  a{text-decoration:none}
+
+  .portada,.pie{height:297mm; display:flex; align-items:center; justify-content:center;
+                padding-block:0; margin:0}
+  .portada::after{inset:10mm}
+  .portada{break-after:page}
+  .pie{break-before:page}
+
+  /* Un grupo por hoja, a dos columnas como la carta impresa. */
+  main{padding:0}
+  .grupo{padding:17mm 18mm; break-inside:auto}
+  .grupo + .grupo{break-before:page}
+  .grupo .wrap{columns:2; column-gap:11mm; padding-inline:0}
+  .grupo-cab{column-span:all; margin-bottom:7mm}
+  .grupo h2{font-size:30px}
+  .sub{padding-top:0; margin-bottom:9mm; break-inside:avoid}
+  .sub h3{break-after:avoid; margin-bottom:12px}
+  .items{gap:13px}
+  .item,.promo,.fijo{break-inside:avoid}
+  .item-desc,.variantes{font-size:12.5px; margin-top:3px}
+  .promos{gap:10px}
+  .promo{padding:12px 14px}
+  .promo-nombre{font-size:19px}
+  .promo-precio{font-size:17px}
+  .promo-detalle{font-size:12.5px}
+}
 </style>
 <div class="hoja">
 <header class="portada"><div class="portada-inner">
@@ -161,6 +201,7 @@ a{color:inherit}
 </div>
 <div class="pie-filete" aria-hidden="true"></div>
 <p class="sello">Carta vigente · <!-- MES --></p>
+<p class="pdf"><a href="carta.pdf" download>Descargar la carta en PDF</a></p>
 </div></footer>
 </div>
 <script>

@@ -232,10 +232,14 @@ def resumen():
 
 
 def planilla():
+    grupos = [g.replace("&", "&amp;") for g in grupos_de_la_planilla()]
+    letras = {1: "uno", 2: "dos", 3: "tres", 4: "cuatro", 5: "cinco", 6: "seis"}
+    cuantos = letras.get(len(grupos), str(len(grupos)))
+    hoy = (" Hoy " + (f"es {cuantos}: " if len(grupos) == 1 else f"son {cuantos}: ")
+           + ", ".join(grupos[:-1]) + (" y " if len(grupos) > 1 else "") + grupos[-1] + ".") if grupos else ""
     filas_cols = [[P("COLUMNA", "tabla_cab"), P("QUÉ ESCRIBIR", "tabla_cab"), P("EJEMPLO", "tabla_cab")]] + [
         [P(f"<b>{c}</b>", "tabla"), P(q, "tabla"), P(e, "tabla")] for c, q, e in [
-            ("Grupo", "El botón de arriba de la carta. Hoy son tres: Combos, Café &amp; bebidas y Para comer.",
-             "Café &amp; bebidas"),
+            ("Grupo", "El botón de arriba de la carta." + hoy, grupos[0] if grupos else ""),
             ("Sección", "El subtítulo dentro del grupo.", "Café de especialidad"),
             ("Producto", "El nombre tal como se lee en la carta. Vacío si la fila es una nota.", "Capuccino"),
             ("Detalle", "Opcional: texto chico bajo el nombre. En una nota, el texto de la nota.",
@@ -262,16 +266,35 @@ def planilla():
     ]
 
 
+GRUPO_MAQUETA = "Café & bebidas"  # el grupo que dibuja la miniatura, si sigue en la planilla
+
+
+def grupos_de_la_planilla():
+    """Los grupos visibles de la planilla vigente, en orden: son los botones de la carta."""
+    libro = load_workbook(RAIZ / "datos" / "carta.xlsx", data_only=True, read_only=True)
+    grupos, actual = [], ""
+    for fila in list(libro["Carta"].iter_rows(values_only=True))[1:]:
+        actual = str(fila[0] or "").strip() or actual
+        oculto = str(fila[5] or "").strip().lower().startswith("n")
+        if actual and fila[2] and not oculto and actual not in grupos:
+            grupos.append(actual)
+    return grupos
+
+
 def muestra_planilla():
     libro = load_workbook(RAIZ / "datos" / "carta.xlsx", data_only=True, read_only=True)
     filas = [f for f in libro["Carta"].iter_rows(values_only=True)]
     cuerpo = filas[1:]
 
-    def primeras(condicion, n):
-        return [f for f in cuerpo if condicion(f)][:n]
-
-    elegidas = (primeras(lambda f: f[1] == "Calientes", 3) + primeras(lambda f: f[1] == "Almuerzos", 3)
-                + primeras(lambda f: f[2] == "Helados", 1))
+    # Se eligen filas de la planilla vigente, sin nombrar secciones: los nombres cambian con la carta.
+    productos = [f for f in cuerpo if f[2]]
+    notas = [f for f in cuerpo if not f[2] and f[3]]
+    tamanos = [f for f in productos if isinstance(f[4], str) and "/" in f[4]]
+    elegidas, vistas = [], set()
+    for f in productos[:2] + notas[:1] + productos[2:4] + tamanos[:1]:
+        if id(f) not in vistas:
+            vistas.add(id(f))
+            elegidas.append(f)
 
     def precio(v):
         if isinstance(v, (int, float)):
@@ -299,9 +322,12 @@ class Maqueta(Flowable):
     cada columna de la planilla. Al dibujarse acá, no envejece cuando cambia la carta.
     """
 
-    def __init__(self, ancho=ANCHO, alto=98 * mm):
+    def __init__(self, ancho=ANCHO, alto=73 * mm):
         super().__init__()
         self.width, self.height = ancho, alto
+        grupos = grupos_de_la_planilla()
+        self.titulo = GRUPO_MAQUETA if GRUPO_MAQUETA in grupos else (grupos[0] if grupos else "")
+        self.etiquetas = [(g, g == self.titulo) for g in grupos]
 
     def _numero(self, n, x, y, d=5 * mm):
         c = self.canv
@@ -336,10 +362,9 @@ class Maqueta(Flowable):
         c.roundRect(margen_num, 0, W - margen_num, H, 3, stroke=0, fill=1)
 
         y = H - 8 * mm
-        # 1 · navegación
-        etiquetas = [("Combos", False), ("Café & bebidas", True), ("Para comer", False)]
+        # 1 · navegación (los grupos de la planilla vigente)
         cx = x
-        for texto, activo in etiquetas:
+        for texto, activo in self.etiquetas:
             an = c.stringWidth(texto, "Avenir", 7) + 8
             c.setFillColor(OLIVA if activo else CREMA)
             c.setStrokeColor(LINEA)
@@ -355,7 +380,7 @@ class Maqueta(Flowable):
         y -= 10 * mm
         c.setFillColor(TINTA)
         c.setFont("Basker", 15)
-        c.drawCentredString(x + ancho / 2, y, "Café & bebidas")
+        c.drawCentredString(x + ancho / 2, y, self.titulo)
         y -= 4 * mm
         c.setStrokeColor(LINEA)
         c.setLineWidth(0.5)
@@ -413,22 +438,6 @@ class Maqueta(Flowable):
             c.line(x + 3 * mm + c.stringWidth(etiqueta, "Basker-Italica", 8) + 4, y + 1.5, x + ancho - ap - 4, y + 1.5)
             c.setDash()
 
-        # 7 · promo destacada
-        y -= 11 * mm
-        alto_promo = 15 * mm
-        c.setFillColor(PAPEL_HONDO)
-        c.roundRect(x, y - alto_promo + 6 * mm, ancho, alto_promo, 2, stroke=0, fill=1)
-        c.setFillColor(TINTA)
-        c.setFont("Basker", 11)
-        c.drawString(x + 3 * mm, y + 2 * mm, "Tu café")
-        c.setFillColor(MARCA)
-        c.setFont("Avenir-Demi", 9.5)
-        c.drawRightString(x + ancho - 3 * mm, y + 2 * mm, "$2.500")
-        c.setFillColor(TINTA_SUAVE)
-        c.setFont("Avenir", 7.5)
-        c.drawString(x + 3 * mm, y - 2 * mm, "Con cualquier compra de salados o dulces")
-        self._numero(7, margen_num / 2 + 2 * mm, y + 2 * mm)
-
 
 def figura_carta():
     """La miniatura y, debajo, la leyenda de los números en dos columnas."""
@@ -440,7 +449,6 @@ def figura_carta():
         ("5", "<b>Detalle</b>: el texto chico bajo el nombre."),
         ("6", "Un producto con <b>dos precios</b>: en Precio va «César · Vegetariana: 6590 / Pollo con "
               "quinoa · Salmón: 6990»."),
-        ("7", "Sección cuyo nombre empieza con <b>«Promo»</b>: sus productos salen destacados en recuadros."),
     ]
     sin_relleno = [("VALIGN", (0, 0), (-1, -1), "TOP"),
                    ("LEFTPADDING", (0, 0), (-1, -1), 0), ("RIGHTPADDING", (0, 0), (-1, -1), 0),
