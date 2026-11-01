@@ -50,9 +50,12 @@ TINTA = "2B2B26"
 CREMA = "F7F5E3"
 LINEA = "9AA886"
 
-SERIF = "Cormorant Garamond"
-SANS = "Jost"
-MANO = "Kaushan Script"
+# El original usa una serif con cuerpo (tipo Times/PT Serif), una sans humanista y una script de pincel
+# gruesa. Con Cormorant y Jost —las de la carta— el flyer quedaba pálido y aireado: un flyer de promos
+# necesita peso. Las tres son de Google Fonts y están en Canva.
+SERIF = "PT Serif"
+SANS = "Lato"
+MANO = "Pacifico"
 
 CONTENIDO = {
     "direccion_cabeza": "LOS LEONES ESQ. TRANQUILA\nPROVIDENCIA, SANTIAGO",
@@ -93,11 +96,12 @@ CONTENIDO = {
     "pie_tira": "CAFÉ  /  PASTELERÍA  /  SÁNDWICHES  /  BRUNCH  /  PRODUCTOS DE CALIDAD",
 }
 
-# Recuadro de cada foto en mm; el recorte al centro se hace al armar.
+# Recuadro de cada foto en mm, y cómo recortarla: `zoom` acerca y `foco` dice en qué parte del ancho
+# queda el centro (0 izquierda, 1 derecha). El vaso frío está a la derecha del cuadro, por eso se acerca.
 RECUADROS = {
-    "cafe": ("cafe-s2380.png", 66, 50.5, 69, 28.5),
-    "croissant": ("croissant-s2380.png", 66, 80, 69, 25),
-    "frio": ("frio-s7.png", 5, 161.3, 42, 18.4),
+    "cafe": dict(archivo="cafe-s41.png", x=66, y=50.5, w=69, h=28.5),
+    "croissant": dict(archivo="croissant-s41.png", x=66, y=80, w=69, h=25),
+    "frio": dict(archivo="frio-s41.png", x=5, y=161.3, w=42, h=18.4, zoom=1.5, foco=0.74),
 }
 
 
@@ -129,9 +133,9 @@ def estilo(fuente=SANS, tam=10, color=TINTA, negrita=False, cursiva=False, espac
     return dict(fuente=fuente, tam=tam, color=color, negrita=negrita, cursiva=cursiva, espaciado=espaciado)
 
 
-ARCHIVOS_FUENTE = {(SERIF, True): "CormorantGaramond-700.ttf", (SERIF, False): "CormorantGaramond-400.ttf",
-                   (SANS, True): "Jost-600.ttf", (SANS, False): "Jost-400.ttf",
-                   (MANO, False): "KaushanScript-400.ttf"}
+ARCHIVOS_FUENTE = {(SERIF, True): "PTSerif-700.ttf", (SERIF, False): "PTSerif-400.ttf",
+                   (SANS, True): "Lato-700.ttf", (SANS, False): "Lato-400.ttf",
+                   (MANO, False): "Pacifico-400.ttf"}
 
 
 def ancho_mm(texto, fuente, tam, negrita=False):
@@ -166,57 +170,57 @@ def maqueta():
     e += [disco(16.3, 2.8, 39.4, PAPEL),
           imagen(GRAF / "logo.png", 15, 1.5, 42, 42),
           imagen(GRAF / "marca-pin.png", 15.2, 41.6, 4.2, 4.2),
-          texto(20.6, 41.4, 42, 9, parrafos(CONTENIDO["direccion_cabeza"],
-                                            estilo(SANS, 7, TINTA_VERDE, negrita=True)), interlineado=1.2)]
+          texto(20.6, 41.6, 42, 9, parrafos(CONTENIDO["direccion_cabeza"],
+                                            estilo(SANS, 7, TINTA_VERDE, negrita=True)), interlineado=1.25)]
 
     # panel de promos
     e += [rect(60, 3, 76, 46, PANEL, redondeo=3),
-          imagen(GRAF / "rama-chica.png", 115, 4, 22, 11),
-          texto(63.5, 5.4, 62, 5, parrafos(CONTENIDO["promo_horario"],
-                                           estilo(SERIF, 10.5, TINTA_VERDE, negrita=True, espaciado=0.6)))]
-    tope = 10.0
+          imagen(GRAF / "rama-chica.png", 117.5, 3.5, 21, 10.5),
+          texto(63.5, 5.2, 70, 5, parrafos(CONTENIDO["promo_horario"],
+                                           estilo(SERIF, 9.5, TINTA_VERDE, negrita=True, espaciado=0.5)))]
+    tope = 9.8
     for i, (nombre, precio, detalle) in enumerate(CONTENIDO["promos"]):
-        tam = 20 if i == 0 else 17.5
-        e.append(texto(63.5, tope, 71, 9,
+        tam = 19 if i == 0 else 16
+        e.append(texto(63.5, tope, 71.5, 9,
                        [[(nombre, estilo(SERIF, tam, TINTA_VERDE, negrita=True)),
                          (precio, estilo(SERIF, tam, ROJO, negrita=True))]], interlineado=1.0))
-        e.append(texto(63.5, tope + (7.8 if i == 0 else 7.2), 71, 13,
-                       parrafos(detalle, estilo(SERIF, 9, TINTA, cursiva=True)), interlineado=1.12))
+        e.append(texto(63.5, tope + (7.2 if i == 0 else 6.1), 71.5, 13,
+                       parrafos(detalle, estilo(SERIF, 8, TINTA, cursiva=True)), interlineado=1.2))
         if i == 0:
-            e.append(linea(63.5, 29.2, w=68))
-            tope = 30.6
+            e.append(linea(63.5, 28.2, w=68))
+            tope = 29.5
 
     # titular, bajada e iconos
-    e += [texto(7, 47.5, 58, 18, parrafos(CONTENIDO["titular"], estilo(MANO, 23, TINTA_VERDE)),
-                interlineado=1.25),
-          imagen(GRAF / "corazon.png", 40.5, 60.8, 5.2, 5.2),
-          texto(7, 68.5, 58, 16, parrafos(CONTENIDO["bajada"], estilo(SANS, 8.8, TINTA)), interlineado=1.3)]
+    e += [texto(7, 48.2, 58, 20, parrafos(CONTENIDO["titular"], estilo(MANO, 24, TINTA_VERDE)),
+                interlineado=1.2),
+          imagen(GRAF / "corazon.png", 38.5, 60.8, 5.4, 5.4),
+          texto(7, 69.2, 58, 16, parrafos(CONTENIDO["bajada"], estilo(SANS, 8.6, TINTA)), interlineado=1.32)]
     for i, (icono, rotulo) in enumerate(CONTENIDO["iconos"]):
         x = 6.5 + i * 15
-        e += [imagen(GRAF / f"icono-{icono}.png", x, 86, 13, 13),
-              texto(x - 2.5, 100.5, 18, 8, parrafos(rotulo, estilo(SANS, 6, TINTA_VERDE, negrita=True)),
+        e += [imagen(GRAF / f"icono-{icono}.png", x, 85.5, 13, 13),
+              texto(x - 2.5, 99.8, 18, 8, parrafos(rotulo, estilo(SANS, 6, TINTA_VERDE, negrita=True)),
                     alineacion="centro", interlineado=1.15)]
 
     # combos
     e += [rect(5, 106, 130, 55, PANEL_SUAVE, redondeo=3),
-          texto(5, 107.6, 130, 10, parrafos(CONTENIDO["combos_titulo"],
-                                            estilo(SERIF, 23, TINTA_VERDE, negrita=True, espaciado=0.8)),
+          texto(5, 107.4, 130, 11, parrafos(CONTENIDO["combos_titulo"],
+                                            estilo(SERIF, 25, TINTA_VERDE, negrita=True, espaciado=0.8)),
                 alineacion="centro"),
-          linea(70.5, 118, h=41), linea(9, 140, w=122)]
+          linea(70.5, 118.5, h=41, grosor=0.9), linea(9, 140.5, w=122, grosor=0.9)]
     for i, (nombre, precio, detalle) in enumerate(CONTENIDO["combos"]):
         x = 9 + (i % 2) * 62.5
-        y = 118.0 if i < 2 else 141.5
-        cuerpo = achicar(nombre, SERIF, 15, 43.5, negrita=True)
-        e += [texto(x, y + (15 - cuerpo) * 0.12, 44, 7,
+        y = 118.2 if i < 2 else 141.5
+        cuerpo = achicar(nombre, SERIF, 13.5, 43, negrita=True)
+        e += [texto(x, y + (13.5 - cuerpo) * 0.12, 44, 7,
                     [[(nombre, estilo(SERIF, cuerpo, TINTA_VERDE, negrita=True))]], interlineado=1.0),
-              texto(x + 42, y, 17, 7, [[(precio, estilo(SERIF, 15, ROJO, negrita=True))]],
+              texto(x + 42, y, 17, 7, [[(precio, estilo(SERIF, 13.5, ROJO, negrita=True))]],
                     alineacion="der", interlineado=1.0),
-              texto(x, y + 5.9, 60, 18, parrafos(detalle, estilo(SANS, 7.2, TINTA)), interlineado=1.2)]
+              texto(x, y + 5.6, 60, 18, parrafos(detalle, estilo(SANS, 7, TINTA)), interlineado=1.22)]
 
     # franja de abajo
     e += [rect(49, 161.3, 37, 18.4, VERDE, redondeo=2),
-          texto(50, 162.8, 35, 16, parrafos(CONTENIDO["sello"], estilo(MANO, 11.5, CREMA)),
-                alineacion="centro", interlineado=1.2),
+          texto(50, 163.2, 35, 16, parrafos(CONTENIDO["sello"], estilo(MANO, 10.5, CREMA)),
+                alineacion="centro", interlineado=1.25),
           imagen(GRAF / "ramita-sello.png", 76, 174.2, 9.5, 4.9)]
     for i, (icono, rotulo) in enumerate(CONTENIDO["marcas"]):
         x = 89 + (i // 2) * 23
@@ -232,12 +236,12 @@ def maqueta():
                                              estilo(SANS, 6, CREMA, negrita=True)), interlineado=1.2),
           linea(50, 182.6, h=9, color=CREMA, grosor=0.5),
           imagen(GRAF / "pie-reloj.png", 53, 183.4, 4.6, 4.6),
-          texto(58.8, 182.1, 27, 11, parrafos(CONTENIDO["pie_horario"], estilo(SANS, 5.8, CREMA)),
+          texto(58.8, 181.9, 27, 11, parrafos(CONTENIDO["pie_horario"], estilo(SANS, 5.6, CREMA)),
                 interlineado=1.15),
           linea(86, 182.6, h=9, color=CREMA, grosor=0.5),
           imagen(GRAF / "pie-instagram.png", 89, 183.7, 4.4, 4.4),
           texto(94.8, 184.1, 24, 5, parrafos(CONTENIDO["pie_instagram"], estilo(SANS, 8, CREMA))),
-          texto(3, 192.2, 109, 5, parrafos(CONTENIDO["pie_tira"], estilo(SANS, 6, CREMA, espaciado=0.4)),
+          texto(3, 192.6, 109, 5, parrafos(CONTENIDO["pie_tira"], estilo(SANS, 6, CREMA, espaciado=0.4)),
                 alineacion="centro"),
           rect(113, 175, 22, 22, CREMA, redondeo=1.5),
           imagen(RAIZ / "qr" / "qr-carta.png", 115.4, 176.3, 17.2, 17.2),
@@ -246,19 +250,26 @@ def maqueta():
                 alineacion="centro")]
 
     # fotos al final, y sobre ellas las hojas de la esquina de abajo
-    for archivo, x, y, w, h in RECUADROS.values():
-        e.append(imagen(recortar(archivo, w, h), x, y, w, h))
+    for r in RECUADROS.values():
+        e.append(imagen(recortar(r["archivo"], r["w"], r["h"], r.get("zoom", 1.0), r.get("foco", 0.5)),
+                        r["x"], r["y"], r["w"], r["h"]))
     e.append(imagen(GRAF / "rama-pie.png", -8, 152, 34, 25))
     return e
 
 
-def recortar(archivo, w_mm, h_mm, ppp=300):
-    """Recorta la foto al centro con la proporción del recuadro y la deja a 300 ppi."""
+def recortar(archivo, w_mm, h_mm, zoom=1.0, foco=0.5, ppp=300):
+    """Recorta la foto con la proporción del recuadro y la deja a 300 ppi."""
     from PIL import Image
     RECORTES.mkdir(parents=True, exist_ok=True)
     destino = RECORTES / archivo
     im = Image.open(FOTOS / archivo).convert("RGB")
-    objetivo, (w, h) = w_mm / h_mm, Image.open(FOTOS / archivo).size
+    if zoom > 1:  # acercar sobre un punto del ancho antes de ajustar la proporción
+        w0, h0 = im.size
+        ancho, alto = int(w0 / zoom), int(h0 / zoom)
+        izq = min(max(int(w0 * foco - ancho / 2), 0), w0 - ancho)
+        arriba = (h0 - alto) // 2
+        im = im.crop((izq, arriba, izq + ancho, arriba + alto))
+    objetivo, (w, h) = w_mm / h_mm, im.size
     if w / h > objetivo:
         nuevo = int(h * objetivo)
         im = im.crop(((w - nuevo) // 2, 0, (w - nuevo) // 2 + nuevo, h))
@@ -338,13 +349,14 @@ def a_pptx(elementos, destino=PPTX):
 
 def a_html(elementos, destino):
     ALIN = {"izq": "left", "centro": "center", "der": "right"}
-    caras = [("Cormorant Garamond", "CormorantGaramond-400.ttf", 400, "normal"),
-             ("Cormorant Garamond", "CormorantGaramond-400Italic.ttf", 400, "italic"),
-             ("Cormorant Garamond", "CormorantGaramond-700.ttf", 700, "normal"),
-             ("Cormorant Garamond", "CormorantGaramond-600Italic.ttf", 700, "italic"),
-             ("Jost", "Jost-400.ttf", 400, "normal"),
-             ("Jost", "Jost-600.ttf", 700, "normal"),
-             ("Kaushan Script", "KaushanScript-400.ttf", 400, "normal")]
+    caras = [("PT Serif", "PTSerif-400.ttf", 400, "normal"),
+             ("PT Serif", "PTSerif-400Italic.ttf", 400, "italic"),
+             ("PT Serif", "PTSerif-700.ttf", 700, "normal"),
+             ("PT Serif", "PTSerif-700Italic.ttf", 700, "italic"),
+             ("Lato", "Lato-400.ttf", 400, "normal"),
+             ("Lato", "Lato-400Italic.ttf", 400, "italic"),
+             ("Lato", "Lato-700.ttf", 700, "normal"),
+             ("Pacifico", "Pacifico-400.ttf", 400, "normal")]
     fuentes = "\n".join(
         f"@font-face{{font-family:'{f}';src:url('tipografias/{a}') format('truetype');"
         f"font-weight:{p};font-style:{e}}}" for f, a, p, e in caras)

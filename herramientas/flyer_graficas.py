@@ -192,9 +192,12 @@ def piezas():
     # Ramas: el viewBox deja aire para las hojas que sobresalen del tallo.
     # Las ramas se dibujan sobre un lienzo holgado y después se recorta el PNG: así ninguna hoja
     # queda cortada por el viewBox y la proporción del archivo es la del dibujo.
-    mata = (f'<g transform="translate(150,260) rotate(-56)">{rama(7, 190, 40, 3.0)}</g>'
-            f'<g transform="translate(150,260) rotate(-16)">{rama(6, 150, 30, 2.6)}</g>'
-            f'<g transform="translate(150,260) rotate(-98)">{rama(5, 130, 26, 2.4)}</g>')
+    oscuro = (VERDE, "#3C5125", VERDE_MEDIO)
+    mata = (f'<g transform="translate(160,275) rotate(-54)">{rama(8, 205, 44, 3.4, oscuro)}</g>'
+            f'<g transform="translate(160,275) rotate(-14)">{rama(7, 170, 34, 3.0, oscuro)}</g>'
+            f'<g transform="translate(160,275) rotate(-92)">{rama(6, 150, 30, 2.8, oscuro)}</g>'
+            f'<g transform="translate(160,275) rotate(-34)">{rama(5, 120, 24, 2.4)}</g>'
+            f'<g transform="translate(160,275) rotate(-74)">{rama(5, 110, 22, 2.2)}</g>')
     p["rama-grande"] = (svg(mata, 300, 300), 300)
     p["rama-chica"] = (svg(f'<g transform="translate(20,150) rotate(-22)">{rama(5, 120, 24, 2.0)}</g>',
                            220, 180), 180)

@@ -91,10 +91,17 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   El sello del logo tiene el **interior transparente**, así que lleva un disco crema detrás o las hojas se
   le meten adentro.
 - `herramientas/flyer_fotos.py` genera las tres fotos con FLUX schnell, cada una del tamaño de su recuadro
-  a 300 ppi (las del original venían a 155). Hay dos tomas del vaso frío: manda la que elija `RECUADROS`.
-- Tipografías: Cormorant Garamond y Jost (las de la carta) y Kaushan Script para los dos rótulos a mano.
-  Las tres son de Google Fonts, están en Canva y quedaron en `flyer/tipografias/`; se instalaron en
-  `~/Library/Fonts` para que el PDF salga bien.
+  a 300 ppi (las del original venían a 155). **Luz difusa y blanco neutro**: la primera tanda pidió «warm
+  late-morning light» y las tres salieron anaranjadas, lejos del original, que es fresco y verde. En
+  `RECUADROS` cada foto dice además su `zoom` y su `foco` para el recorte.
+- **Tipografías: PT Serif, Lato y Pacifico** (no las de la carta). La primera versión usaba Cormorant
+  Garamond y Jost por coherencia con la carta y el usuario dijo que se veía **más feo que el original**:
+  tenía razón, quedaba pálido y aireado. El original usa una serif con cuerpo tipo Times, una sans
+  humanista y una script de pincel gruesa; un flyer de promos necesita peso, no la elegancia de la carta.
+  Se compararon especímenes contra el original antes de elegir. Las tres son de Google Fonts, están en
+  Canva y quedaron en `flyer/tipografias/`; se instalaron en `~/Library/Fonts` para que el PDF salga bien.
+- Los nombres de los combos se ajustan solos con `achicar()`: «Almuerzo + Bebestible» no cabe a 13,5 pt y
+  baja hasta entrar, como en el original.
 - **El QR del original apuntaba a `borocafe.cl`, que no tiene DNS**: se reemplazó por el del proyecto
   (`qr/qr-carta.png`, a la carta digital), rotulado «NUESTRA CARTA». Se verificó que decodifica desde el
   arte final a 300 y a 150 ppp.

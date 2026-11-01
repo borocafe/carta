@@ -26,18 +26,21 @@ SALIDA = RAIZ / "flyer" / "fotos"
 SEMILLA = int(os.environ.get("SEMILLA", "2380"))
 
 # El aire del flyer: mesa de madera clara, follaje verde desenfocado atrás, luz de mañana.
+# Luz pareja y blanco neutro: la primera tanda salió con luz de atardecer y las tres fotos tiraban a
+# naranjo, muy lejos del flyer original, que es fresco y verde.
 ESTILO = ("Editorial food photograph for a neighbourhood specialty coffee shop, shot on a 50mm lens at f2 "
-          "with shallow depth of field and fine natural grain. Warm late-morning daylight from the left with "
-          "soft shadows. The subject sits on a honey-coloured wooden table; behind it, out-of-focus green "
-          "garden foliage and warm bokeh. Natural colours, cream, wood brown and leaf green. "
+          "with shallow depth of field and fine natural grain. Soft diffused daylight from a window on an "
+          "overcast morning, neutral white balance, gentle shadows, no orange cast, no sunset light. "
+          "The subject sits on a pale honey-coloured wooden table; behind it, out-of-focus fresh green "
+          "garden leaves filling the background. Natural colours: cream, light wood and leaf green. "
           "No text, no logos, no lettering, no people, no hands. ")
 
 FOTOS = {
     # etiqueta: (escena, ancho, alto)  — proporción = la del recuadro en el flyer
     "cafe": (
-        "A wide ceramic cappuccino cup in sage green glaze on a matching saucer, seen from a low three quarter "
-        "angle, filled to the brim with milk foam poured into a clean latte art rosetta over caramel coloured "
-        "crema. The cup is slightly right of centre and fills most of the frame.",
+        "A wide ceramic cappuccino cup glazed in strong leaf green, on a matching green saucer, seen from a "
+        "low three quarter angle, filled to the brim with milk foam poured into a clean latte art rosetta "
+        "over caramel coloured crema. The cup is slightly right of centre and fills most of the frame.",
         1216, 768),
     "croissant": (
         "One single golden butter croissant with a crisp blistered crust and clearly separated laminated layers, "
