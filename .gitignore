@@ -7,3 +7,7 @@ marca/generadas/
 docs/index.html
 .playwright-mcp/
 docs/carta.pdf
+
+# Generados por herramientas/flyer.py
+flyer/flyer-boro.html
+flyer/fotos/recortes/

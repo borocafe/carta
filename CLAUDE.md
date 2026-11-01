@@ -75,14 +75,44 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   Baguette de roast beef; entraron Espresso naranja, Ice Latte e Ice Moca; Brookie/Brownie bajó a $2.900.
   Quedan dos grupos: «Café & bebidas» y «Para comer». Manda la planilla, no la PPT.
 
+## Flyer de 14 x 20 cm (`flyer/`)
+
+- El local tenía `Flyer 4,2_F.pdf` (Christian del Campo, 28-10-2026, Illustrator): **una sola imagen de
+  155 ppi**, sin una línea de texto vectorial. Por eso se rehízo entero; no había nada que rescatar.
+- Se entrega **`flyer/Flyer Boro Cafe.pptx`** como editable: Canva importa PowerPoint dejando cada texto
+  como caja de texto y cada imagen aparte (el PDF entra más frágil y el SVG, aplanado), y el mismo archivo
+  abre en Keynote, Slides y PowerPoint. Al lado van `flyer-boro.pdf` (imprenta) y `flyer-boro.png` (300 ppi).
+- **Una maqueta, dos salidas**: `herramientas/flyer.py` tiene el texto en `CONTENIDO`, la maqueta en
+  `maqueta()` (rectángulos, discos, líneas, fotos y textos, todo en mm) y dos dibujantes, `a_pptx` y
+  `a_html`; el PDF sale del HTML con el mismo Chrome que la carta. Las métricas de PowerPoint y de Chrome
+  no son idénticas: manda el PDF, el PPTX puede pedir medio milímetro de ajuste.
+- `herramientas/flyer_graficas.py` dibuja en SVG los iconos, el corazón y las ramas de hojas, y los
+  rasteriza a PNG (`flyer/graficas/`, con el SVG al lado). Son dibujos propios: nítidos a cualquier tamaño.
+  El sello del logo tiene el **interior transparente**, así que lleva un disco crema detrás o las hojas se
+  le meten adentro.
+- `herramientas/flyer_fotos.py` genera las tres fotos con FLUX schnell, cada una del tamaño de su recuadro
+  a 300 ppi (las del original venían a 155). Hay dos tomas del vaso frío: manda la que elija `RECUADROS`.
+- Tipografías: Cormorant Garamond y Jost (las de la carta) y Kaushan Script para los dos rótulos a mano.
+  Las tres son de Google Fonts, están en Canva y quedaron en `flyer/tipografias/`; se instalaron en
+  `~/Library/Fonts` para que el PDF salga bien.
+- **El QR del original apuntaba a `borocafe.cl`, que no tiene DNS**: se reemplazó por el del proyecto
+  (`qr/qr-carta.png`, a la carta digital), rotulado «NUESTRA CARTA». Se verificó que decodifica desde el
+  arte final a 300 y a 150 ppp.
+- Diferencias de texto respecto del original, todas avisadas al usuario: «mochaccino» → «mocaccino» (como
+  en la carta) y los horarios con dos puntos parejos (`8:00` y no `8.00`).
+- Sale a 140 x 200 mm **al corte, sin sangría**. Si la imprenta la pide, hay que rehacerlo a 146 x 206.
+
 ## Datos del café
 
 - Nombre **Boró Café**. En la carta se lee **«Los Leones esq Tranquila · Providencia»** (decisión del usuario,
   22-09-2026), pero el enlace al mapa busca «Av. Los Leones 2299, Providencia», como en la lámina 3 de la carta
   oficial. Sin el «Av.» Google Maps mandaba a otra parte; con «Av. Los Leones 2299, Providencia» cae bien
   (el usuario lo verificó). El enlace del pie usa ese texto, sin región. Instagram `@borocafe.cl`.
-- Falta el horario. `borocafe.cl` está registrado (mayo 2026, "Servicio de alimentación Del Campo Tomicic
-  Ltda") y sin DNS.
+- **Horario** (del flyer del local, 28-10-2026): lunes a viernes 8:00 a 20:30, sábado y domingo 10:00 a
+  20:30. La promo del café barato es de lunes a viernes de 8:00 a 11:00. La carta digital **no** lo muestra
+  todavía: la regla del usuario es que solo va lo que está en la carta oficial.
+- `borocafe.cl` está registrado (mayo 2026, "Servicio de alimentación Del Campo Tomicic Ltda") y sin DNS:
+  por eso el QR del flyer apunta a la carta en GitHub Pages y no al dominio.
 
 ## Herramientas locales
 

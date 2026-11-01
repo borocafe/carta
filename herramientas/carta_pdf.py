@@ -45,13 +45,15 @@ def buscar_chrome():
     sys.exit("No encontré Chrome ni Chromium para imprimir el PDF. Instálalo o define la variable CHROME.")
 
 
-def servir():
-    """Sirve docs/ en un puerto libre, en segundo plano."""
+def servir(carpeta=None):
+    """Sirve una carpeta (docs/ por omisión) en un puerto libre, en segundo plano."""
     class Mudo(SimpleHTTPRequestHandler):
+        protocol_version = "HTTP/1.1"  # con HTTP/1.0 Chrome pierde imágenes al pedir varias a la vez
+
         def log_message(self, *a):
             pass
 
-    handler = partial(Mudo, directory=str(SITIO))
+    handler = partial(Mudo, directory=str(carpeta or SITIO))
     servidor = ThreadingHTTPServer(("127.0.0.1", 0), handler)
     threading.Thread(target=servidor.serve_forever, daemon=True).start()
     return servidor, servidor.server_address[1]
