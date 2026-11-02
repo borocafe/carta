@@ -84,7 +84,13 @@ Empezó en la sesión en la nube `cse_01NuV3XNUTWVhoeUA9F2QUtr` (14-sep-2026) y 
   abre en Keynote, Slides y PowerPoint. Al lado van `flyer-boro.pdf` (imprenta) y `flyer-boro.png` (300 ppi).
 - **Una maqueta, dos salidas**: `herramientas/flyer.py` tiene el texto en `CONTENIDO`, la maqueta en
   `maqueta()` (rectángulos, discos, líneas, fotos y textos, todo en mm) y dos dibujantes, `a_pptx` y
-  `a_html`; el PDF sale del HTML con el mismo Chrome que la carta. Las métricas de PowerPoint y de Chrome
+  `a_html`; el PDF sale del HTML con el mismo Chrome que la carta.
+- **La maqueta se apoya en una grilla explícita** (constantes `MARGEN`, `IZQ_X/W`, `DER_X/W`, `PADDING`
+  y una `Y` por bloque): margen parejo de 5 mm, canal de 4 mm entre columnas, 4 mm de margen interno en
+  los paneles y 2 mm de aire entre bloques. La primera versión ponía cada cosa en coordenadas sueltas y
+  se notaba: paneles que no alineaban con las fotos y huecos de 0,3 y de 3 mm en la misma página.
+- Lo que va entre `*asteriscos*` en `CONTENIDO` sale en negrita: así «Café», «jugo de naranja» y los
+  «300» pesos quedan resaltados dentro del detalle, como en el original. Las métricas de PowerPoint y de Chrome
   no son idénticas: manda el PDF, el PPTX puede pedir medio milímetro de ajuste.
 - `herramientas/flyer_graficas.py` dibuja en SVG los iconos, el corazón y las ramas de hojas, y los
   rasteriza a PNG (`flyer/graficas/`, con el SVG al lado). Son dibujos propios: nítidos a cualquier tamaño.

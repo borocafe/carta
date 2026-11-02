@@ -65,7 +65,7 @@ CONTENIDO = {
          "con cualquier compra de salados o dulces\npide un café ristretto, espresso,\namericano o lungo."),
         ("Tu café con leche a ", "3.000",
          "con cualquier compra de salados o dulces, pide tu café\nmocaccino, cappuccino, latte o flat white.\n"
-         "Si lo quieres con leche de avena, son 300 pesos adicionales."),
+         "Si lo quieres con leche de avena, son *300* pesos adicionales."),
     ],
     "titular": "Tu café de\ncada día",
     "bajada": ("Un lugar acogedor, moderno y natural,\npara disfrutar solo o en buena compañía.\n"
@@ -75,15 +75,15 @@ CONTENIDO = {
     "combos_titulo": "NUESTROS COMBOS",
     "combos": [
         ("Desayuno Liviano", "4.900",
-         "Café (+ leche, 500 pesos adicionales;\n+ leche de avena, 800 pesos adicionales)\n"
+         "*Café* (+ leche, 500 pesos adicionales;\n+ leche de avena, 800 pesos adicionales)\n"
          "+ yogurt con granola y frutos rojos."),
         ("Brunch", "11.900",
-         "Café (+ leche, 500 pesos adicionales;\n+ leche de avena, 800 pesos adicionales)\n"
-         "+ jugo de naranja + croissant jamón queso\n+ dulce chico (palmera, rollo de canela,\n"
+         "*Café* (+ leche, 500 pesos adicionales;\n+ leche de avena, 800 pesos adicionales)\n"
+         "+ *jugo de naranja* + croissant jamón queso\n+ dulce chico (palmera, rollo de canela,\n"
          "media luna, queque o galleta chocochips)."),
         ("Almuerzo + Bebestible", "7.900", "Cualquier almuerzo o wrap + bebida."),
         ("Once de Barrio", "4.900",
-         "Café (+ leche, 500 pesos adicionales;\n+ leche de avena, 800 pesos adicionales)\n"
+         "*Café* (+ leche, 500 pesos adicionales;\n+ leche de avena, 800 pesos adicionales)\n"
          "+ dulce chico (palmera, rollo de canela,\nmedia luna, queque o galleta chocochips)."),
     ],
     "sello": "Pan de\nmasa madre\npara llevar",
@@ -94,14 +94,6 @@ CONTENIDO = {
     "pie_instagram": "@borocafe.cl",
     "pie_qr": "NUESTRA CARTA",
     "pie_tira": "CAFÉ  /  PASTELERÍA  /  SÁNDWICHES  /  BRUNCH  /  PRODUCTOS DE CALIDAD",
-}
-
-# Recuadro de cada foto en mm, y cómo recortarla: `zoom` acerca y `foco` dice en qué parte del ancho
-# queda el centro (0 izquierda, 1 derecha). El vaso frío está a la derecha del cuadro, por eso se acerca.
-RECUADROS = {
-    "cafe": dict(archivo="cafe-s41.png", x=66, y=50.5, w=69, h=28.5),
-    "croissant": dict(archivo="croissant-s41.png", x=66, y=80, w=69, h=25),
-    "frio": dict(archivo="frio-s41.png", x=5, y=161.3, w=42, h=18.4, zoom=1.5, foco=0.74),
 }
 
 
@@ -154,106 +146,144 @@ def achicar(texto, fuente, tam, cabe_en, negrita=False, minimo=11):
 
 
 def parrafos(cadena, est):
-    """Un párrafo por salto de línea, todos con el mismo estilo."""
-    return [[(l, est)] for l in cadena.split("\n")]
+    """Un párrafo por salto de línea. Lo que va entre *asteriscos* sale en negrita, como en el original,
+    donde «Café» y «jugo de naranja» están resaltados dentro del detalle."""
+    fuerte = dict(est, negrita=True)
+    salida = []
+    for linea in cadena.split("\n"):
+        tramos = [(t, fuerte if i % 2 else est) for i, t in enumerate(linea.split("*")) if t]
+        salida.append(tramos or [("", est)])
+    return salida
 
 
 # ---------------------------------------------------------------- la maqueta
 
+# Una grilla explícita en vez de coordenadas sueltas: margen parejo de 5 mm, dos columnas con la misma
+# canal, y los bloques separados siempre por el mismo aire. Antes cada bloque caía donde fuera y se
+# notaba: paneles que no alineaban con las fotos, sangrados distintos, huecos de 0,3 y de 3 mm.
+MARGEN = 5.0
+IZQ_X, IZQ_W = 5.0, 56.0      # columna izquierda: sello, titular, bajada e iconos
+DER_X, DER_W = 65.0, 70.0     # columna derecha: panel de promos y fotos (canal de 4 mm)
+PADDING = 4.0                 # margen interno de los paneles
+
+PROMO_Y, PROMO_H = 4.0, 44.0
+FOTO1_Y, FOTO1_H = 50.0, 29.0
+FOTO2_Y, FOTO2_H = 80.5, 25.0
+COMBOS_Y, COMBOS_H = 107.5, 53.0
+FRANJA_Y, FRANJA_H = 162.0, 17.5
+BARRA_Y, BARRA_H = 180.5, 16.0
+
+RECUADROS = {
+    "cafe": dict(archivo="cafe-s41.png", x=DER_X, y=FOTO1_Y, w=DER_W, h=FOTO1_H),
+    "croissant": dict(archivo="croissant-s41.png", x=DER_X, y=FOTO2_Y, w=DER_W, h=FOTO2_H),
+    "frio": dict(archivo="frio-s41.png", x=MARGEN, y=FRANJA_Y, w=42, h=FRANJA_H, zoom=1.5, foco=0.74),
+}
+
+
 def maqueta():
-    e = [rect(0, 0, ANCHO, ALTO, PAPEL)]
+    e = [rect(0, 0, ANCHO, ALTO, PAPEL), imagen(GRAF / "rama-grande.png", -9, -7, 47, 49)]
 
-    # hojas de las esquinas
-    e.append(imagen(GRAF / "rama-grande.png", -9, -7, 47, 49))
+    # ---- sello y dirección, centrados en la columna izquierda
+    centro = IZQ_X + IZQ_W / 2
+    e += [disco(centro - 18.6, 2.9, 37.2, PAPEL),
+          imagen(GRAF / "logo.png", centro - 20, 1.5, 40, 40),
+          imagen(GRAF / "marca-pin.png", IZQ_X, 42.9, 4.2, 4.2),
+          texto(IZQ_X + 5.4, 42.7, IZQ_W - 5.4, 9,
+                parrafos(CONTENIDO["direccion_cabeza"],
+                         estilo(SANS, 7, TINTA_VERDE, negrita=True, espaciado=0.2)), interlineado=1.3)]
 
-    # sello y dirección
-    e += [disco(16.3, 2.8, 39.4, PAPEL),
-          imagen(GRAF / "logo.png", 15, 1.5, 42, 42),
-          imagen(GRAF / "marca-pin.png", 15.2, 41.6, 4.2, 4.2),
-          texto(20.6, 41.6, 42, 9, parrafos(CONTENIDO["direccion_cabeza"],
-                                            estilo(SANS, 7, TINTA_VERDE, negrita=True)), interlineado=1.25)]
-
-    # panel de promos
-    e += [rect(60, 3, 76, 46, PANEL, redondeo=3),
-          imagen(GRAF / "rama-chica.png", 117.5, 3.5, 21, 10.5),
-          texto(63.5, 5.2, 70, 5, parrafos(CONTENIDO["promo_horario"],
-                                           estilo(SERIF, 9.5, TINTA_VERDE, negrita=True, espaciado=0.5)))]
-    tope = 9.8
+    # ---- panel de promos
+    tx, tw = DER_X + PADDING, DER_W - 2 * PADDING
+    e += [rect(DER_X, PROMO_Y, DER_W, PROMO_H, PANEL, redondeo=3),
+          imagen(GRAF / "rama-chica.png", DER_X + DER_W - 13, PROMO_Y - 3.4, 18, 9),
+          texto(tx, PROMO_Y + 2.2, tw, 5, parrafos(CONTENIDO["promo_horario"],
+                estilo(SERIF, 9, TINTA_VERDE, negrita=True, espaciado=0.4)))]
+    tope = PROMO_Y + 6.8
     for i, (nombre, precio, detalle) in enumerate(CONTENIDO["promos"]):
-        tam = 19 if i == 0 else 16
-        e.append(texto(63.5, tope, 71.5, 9,
-                       [[(nombre, estilo(SERIF, tam, TINTA_VERDE, negrita=True)),
-                         (precio, estilo(SERIF, tam, ROJO, negrita=True))]], interlineado=1.0))
-        e.append(texto(63.5, tope + (7.2 if i == 0 else 6.1), 71.5, 13,
-                       parrafos(detalle, estilo(SERIF, 8, TINTA, cursiva=True)), interlineado=1.2))
+        tam = 19 if i == 0 else 14.7
+        e += [texto(tx, tope, tw, 9, [[(nombre, estilo(SERIF, tam, TINTA_VERDE, negrita=True)),
+                                       (precio, estilo(SERIF, tam, ROJO, negrita=True))]], interlineado=1.0),
+              texto(tx, tope + (7.1 if i == 0 else 5.6), tw, 13,
+                    parrafos(detalle, estilo(SERIF, 7, TINTA, cursiva=True)), interlineado=1.3)]
         if i == 0:
-            e.append(linea(63.5, 28.2, w=68))
-            tope = 29.5
+            e.append(linea(tx, 28.6, w=tw))
+            tope = 29.8
 
-    # titular, bajada e iconos
-    e += [texto(7, 48.2, 58, 20, parrafos(CONTENIDO["titular"], estilo(MANO, 24, TINTA_VERDE)),
+    # ---- titular, bajada e iconos
+    e += [texto(IZQ_X, 50.6, IZQ_W, 20, parrafos(CONTENIDO["titular"], estilo(MANO, 22, TINTA_VERDE)),
                 interlineado=1.2),
-          imagen(GRAF / "corazon.png", 38.5, 60.8, 5.4, 5.4),
-          texto(7, 69.2, 58, 16, parrafos(CONTENIDO["bajada"], estilo(SANS, 8.6, TINTA)), interlineado=1.32)]
+          imagen(GRAF / "corazon.png", IZQ_X + 27, 61.4, 5.2, 5.2),
+          texto(IZQ_X, 71.4, IZQ_W, 17, parrafos(CONTENIDO["bajada"], estilo(SANS, 8.2, TINTA)),
+                interlineado=1.4)]
+    paso, lado = IZQ_W / 4, 11.5
     for i, (icono, rotulo) in enumerate(CONTENIDO["iconos"]):
-        x = 6.5 + i * 15
-        e += [imagen(GRAF / f"icono-{icono}.png", x, 85.5, 13, 13),
-              texto(x - 2.5, 99.8, 18, 8, parrafos(rotulo, estilo(SANS, 6, TINTA_VERDE, negrita=True)),
-                    alineacion="centro", interlineado=1.15)]
+        medio = IZQ_X + paso * i + paso / 2
+        e += [imagen(GRAF / f"icono-{icono}.png", medio - lado / 2, 89.5, lado, lado),
+              texto(medio - 8.5, 102.0, 17, 8,
+                    parrafos(rotulo, estilo(SANS, 5.6, TINTA_VERDE, negrita=True, espaciado=0.15)),
+                    alineacion="centro", interlineado=1.2)]
 
-    # combos
-    e += [rect(5, 106, 130, 55, PANEL_SUAVE, redondeo=3),
-          texto(5, 107.4, 130, 11, parrafos(CONTENIDO["combos_titulo"],
-                                            estilo(SERIF, 25, TINTA_VERDE, negrita=True, espaciado=0.8)),
-                alineacion="centro"),
-          linea(70.5, 118.5, h=41, grosor=0.9), linea(9, 140.5, w=122, grosor=0.9)]
+    # ---- combos: dos columnas iguales dentro del panel
+    col_w = (ANCHO - 2 * MARGEN - 2 * PADDING - 2.5) / 2
+    col_x = [MARGEN + PADDING, MARGEN + PADDING + col_w + 2.5]
+    medio_x = col_x[1] - 1.25
+    e += [rect(MARGEN, COMBOS_Y, ANCHO - 2 * MARGEN, COMBOS_H, PANEL_SUAVE, redondeo=3),
+          texto(MARGEN, COMBOS_Y + 2.1, ANCHO - 2 * MARGEN, 11,
+                parrafos(CONTENIDO["combos_titulo"],
+                         estilo(SERIF, 25, TINTA_VERDE, negrita=True, espaciado=0.8)), alineacion="centro"),
+          linea(medio_x, COMBOS_Y + 11.5, h=COMBOS_H - 13.5, grosor=0.9),
+          linea(col_x[0], 140.6, w=col_w * 2 + 2.5, grosor=0.9)]
     for i, (nombre, precio, detalle) in enumerate(CONTENIDO["combos"]):
-        x = 9 + (i % 2) * 62.5
-        y = 118.2 if i < 2 else 141.5
-        cuerpo = achicar(nombre, SERIF, 13.5, 43, negrita=True)
-        e += [texto(x, y + (13.5 - cuerpo) * 0.12, 44, 7,
-                    [[(nombre, estilo(SERIF, cuerpo, TINTA_VERDE, negrita=True))]], interlineado=1.0),
-              texto(x + 42, y, 17, 7, [[(precio, estilo(SERIF, 13.5, ROJO, negrita=True))]],
-                    alineacion="der", interlineado=1.0),
-              texto(x, y + 5.6, 60, 18, parrafos(detalle, estilo(SANS, 7, TINTA)), interlineado=1.22)]
+        x = col_x[i % 2]
+        y = 119.4 if i < 2 else 141.7
+        ancho_precio = 14.0
+        e += [texto(x, y, col_w - ancho_precio, 7,
+                    [[(nombre, estilo(SERIF, 12, TINTA_VERDE, negrita=True))]], interlineado=1.0),
+              texto(x + col_w - ancho_precio, y, ancho_precio, 7,
+                    [[(precio, estilo(SERIF, 12, ROJO, negrita=True))]], alineacion="der", interlineado=1.0),
+              texto(x, y + 5.4, col_w, 18, parrafos(detalle, estilo(SANS, 7, TINTA)), interlineado=1.22)]
 
-    # franja de abajo
-    e += [rect(49, 161.3, 37, 18.4, VERDE, redondeo=2),
-          texto(50, 163.2, 35, 16, parrafos(CONTENIDO["sello"], estilo(MANO, 10.5, CREMA)),
+    # ---- franja: foto fría, sello de pan y las cuatro marcas
+    sello_x, sello_w = 49.5, 37.0
+    e += [rect(sello_x, FRANJA_Y, sello_w, FRANJA_H, VERDE, redondeo=2),
+          texto(sello_x + 1, FRANJA_Y + 1.8, sello_w - 2, 16,
+                parrafos(CONTENIDO["sello"], estilo(MANO, 10.5, CREMA)),
                 alineacion="centro", interlineado=1.25),
-          imagen(GRAF / "ramita-sello.png", 76, 174.2, 9.5, 4.9)]
+          imagen(GRAF / "ramita-sello.png", sello_x + 27, FRANJA_Y + 10.8, 9, 4.6)]
     for i, (icono, rotulo) in enumerate(CONTENIDO["marcas"]):
         x = 89 + (i // 2) * 23
-        y = 162.0 + (i % 2) * 8
+        y = FRANJA_Y + 0.5 + (i % 2) * 7.7
         e += [imagen(GRAF / f"marca-{icono}.png", x, y, 5.2, 5.2),
-              texto(x + 6, y + 0.3, 17, 7, parrafos(rotulo, estilo(SANS, 5.4, TINTA_VERDE, negrita=True)),
-                    interlineado=1.15)]
+              texto(x + 6, y + 0.3, 17, 7,
+                    parrafos(rotulo, estilo(SANS, 5.4, TINTA_VERDE, negrita=True, espaciado=0.15)),
+                    interlineado=1.2)]
 
-    # barra verde
-    e += [rect(3, 180.5, 134, 16.5, VERDE, redondeo=2),
-          imagen(GRAF / "pie-pin.png", 8, 183.4, 4.6, 4.6),
-          texto(13.8, 183.5, 35, 8, parrafos(CONTENIDO["pie_direccion"],
-                                             estilo(SANS, 6, CREMA, negrita=True)), interlineado=1.2),
-          linea(50, 182.6, h=9, color=CREMA, grosor=0.5),
-          imagen(GRAF / "pie-reloj.png", 53, 183.4, 4.6, 4.6),
-          texto(58.8, 181.9, 27, 11, parrafos(CONTENIDO["pie_horario"], estilo(SANS, 5.6, CREMA)),
-                interlineado=1.15),
-          linea(86, 182.6, h=9, color=CREMA, grosor=0.5),
-          imagen(GRAF / "pie-instagram.png", 89, 183.7, 4.4, 4.4),
-          texto(94.8, 184.1, 24, 5, parrafos(CONTENIDO["pie_instagram"], estilo(SANS, 8, CREMA))),
-          texto(3, 192.6, 109, 5, parrafos(CONTENIDO["pie_tira"], estilo(SANS, 6, CREMA, espaciado=0.4)),
+    # ---- barra verde
+    by = BARRA_Y
+    e += [rect(MARGEN, by, ANCHO - 2 * MARGEN, BARRA_H, VERDE, redondeo=2),
+          imagen(GRAF / "pie-pin.png", 9, by + 3.4, 4.4, 4.4),
+          texto(14.6, by + 3.3, 34, 8, parrafos(CONTENIDO["pie_direccion"],
+                estilo(SANS, 6, CREMA, negrita=True, espaciado=0.15)), interlineado=1.25),
+          linea(50, by + 2.2, h=8.5, color=CREMA, grosor=0.5),
+          imagen(GRAF / "pie-reloj.png", 53.5, by + 3.4, 4.4, 4.4),
+          texto(59.2, by + 1.3, 27, 11, parrafos(CONTENIDO["pie_horario"], estilo(SANS, 5.6, CREMA)),
+                interlineado=1.2),
+          linea(86, by + 2.2, h=8.5, color=CREMA, grosor=0.5),
+          imagen(GRAF / "pie-instagram.png", 89.5, by + 3.8, 4.4, 4.4),
+          texto(95.3, by + 4.1, 24, 5, parrafos(CONTENIDO["pie_instagram"], estilo(SANS, 8, CREMA))),
+          texto(MARGEN, by + 11.7, 107, 5,
+                parrafos(CONTENIDO["pie_tira"], estilo(SANS, 6, CREMA, espaciado=0.4)),
                 alineacion="centro"),
-          rect(113, 175, 22, 22, CREMA, redondeo=1.5),
-          imagen(RAIZ / "qr" / "qr-carta.png", 115.4, 176.3, 17.2, 17.2),
-          texto(113, 193.8, 22, 4, parrafos(CONTENIDO["pie_qr"],
-                                              estilo(SANS, 5.2, TINTA_VERDE, negrita=True, espaciado=0.4)),
-                alineacion="centro")]
+          rect(112.5, 175.5, 22.5, 21, CREMA, redondeo=1.5),
+          imagen(RAIZ / "qr" / "qr-carta.png", 115.7, 176.8, 16.1, 16.1),
+          texto(112.5, 193.5, 22.5, 4, parrafos(CONTENIDO["pie_qr"],
+                estilo(SANS, 5.2, TINTA_VERDE, negrita=True, espaciado=0.4)), alineacion="centro")]
 
     # fotos al final, y sobre ellas las hojas de la esquina de abajo
     for r in RECUADROS.values():
         e.append(imagen(recortar(r["archivo"], r["w"], r["h"], r.get("zoom", 1.0), r.get("foco", 0.5)),
                         r["x"], r["y"], r["w"], r["h"]))
-    e.append(imagen(GRAF / "rama-pie.png", -8, 152, 34, 25))
+    e.append(imagen(GRAF / "rama-pie.png", -9, 151, 26, 20))
     return e
 
 
